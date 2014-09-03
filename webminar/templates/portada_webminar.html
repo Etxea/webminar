@@ -1,0 +1,31 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+
+
+{% block body %}
+    <h1>{% trans "Welcome to Webminar" %}</h1>
+    
+    <div class="row">
+        <div class="col-sm-2 col-sm-offset-3">
+            <a href="{{ siguiente_webminar.get_view_url }}" class="btn btn-primary btn-lg" role="button"> Siguiente Webminar<br />Hora: {{ siguiente_webminar.inicio }} </a>
+        </div>
+        <div class="col-sm-2 col-sm-offset-1">
+            <p class="btn btn-default btn-lg" role="button">Proximo Webminar <br />Hora: {{ proximo_webminar.inicio }}</p>
+        </div>
+    </div>
+    <h3>Historico</h3>
+    <ul>
+        {% for webminar in object_list %}
+        <li> {{ webminar.inicio }}
+            <a herf="{{ webminar.get_historico_url }}">
+            {{ webminar.slug }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    
+{% endblock %}

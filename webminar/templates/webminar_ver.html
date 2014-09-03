@@ -1,0 +1,42 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Realizar Webminar" %}{% endblock %}
+
+{% block body %}
+<h1>Webminar {{webminar.slug}}</h1>
+<div class="row">
+
+
+    <div class="col-md-9">
+        <h3>Video</h3>
+        <div style="height: 540px;background-color: grey"></div>
+        <h3>Detalles</h3>
+        <ul>
+            <li>{{webminar.slug}}</li>
+            <li>{{webminar.inicio}}</li>
+            <li>{{webminar.fin}}</li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h3>Mensajes</h3>
+        <p>Enviar mensaje:<input><button>Enviar</button></p>
+        <div id="mensajes_list">
+        <ul>
+            <li><b>fulano@lalala.com</b>: Teno una duda</li>
+            <li><i>Administrador</i>: Las preguntas se responderan al finalizar la explicación</li>
+            <li><b>fulano@lalala.com</b>: Teno una duda</li>
+        </ul>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+    
+    </div>
+</div>
+
+{% endblock %}

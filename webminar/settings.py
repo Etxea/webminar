@@ -132,6 +132,8 @@ INSTALLED_APPS = [
 
     # project
     "webminar",
+    "videowm",
+    "gestion",
 ]
 
 # A sample logging configuration. The only tangible logging
