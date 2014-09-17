@@ -1,0 +1,14 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Nuevo Webminar" %}{% endblock %}
+
+{% block body %}
+    
+    <form action="" method="post">{% csrf_token %}
+    <p class="bg-danger">Atencion! ¿Seguro que desea borrar?</p>
+    <input type="submit" value="Borrar" />
+</form>
+
+{% endblock %}

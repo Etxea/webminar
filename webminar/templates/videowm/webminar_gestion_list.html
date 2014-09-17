@@ -9,10 +9,10 @@
     <a href="{% url 'webminar_nuevo' %}" class="button">Nuevo</a>
     <ul>
     {% for webminar in object_list %}
-    <li>{{ webminar.inicio }} {{ webminar.slug }} <a href="{{ webminar.get_absolute_url }}">Editar</a> 
-        | <a href="{% url 'webminar_realizar' webminar.id %}">Realizar</a> 
-        | <a href="{% url 'webminar_ver' webminar.id %}">Ver</a> 
-        | <a href="">Borrar</a> 
+    <li>{{ webminar.inicio }} {{ webminar.slug }} <a href="{{ webminar.get_absolute_url }}">Editar</a> <span class="glyphicon glyphicon-trash"></span>
+        | <a href="{% url 'webminar_realizar' webminar.id %}">Realizar</a> <span class="glyphicon glyphicon-facetime-video"></span>
+        | <a href="{% url 'webminar_ver' webminar.id %}">Ver</a> <span class="glyphicon glyphicon-film"></span>
+        | <a href="{% url 'webminar_borrar' webminar.id %}">Borrar</a> <span class="glyphicon glyphicon-trash"></span>
     </li>
     {% endfor %}
     </ul>
