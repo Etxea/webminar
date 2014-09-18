@@ -5,12 +5,34 @@
 
 
 {% block head_title %}
-{% if object.id %}
-{% trans "Editar Webminar" %}
-{% else %}
-{% trans "Nuevo Webminar" %}
-{% endif %}
+	{% if object.id %}
+		{% trans "Editar Webminar" %}
+	{% else %}
+		{% trans "Nuevo Webminar" %}
+	{% endif %}
 {% endblock %}
+
+
+{% block extra_script %}
+<!-- para el datepicker -->
+{{ form.media }}
+
+        <script>
+            $(function() {
+                $("#id_inicio").datetimepicker({"weekStart": 1, "language": "es-es", "minuteStepping":15,"useSeconds": false,"useCurrent":false});
+                $("#id_fin").datetimepicker({"weekStart": 1, "language": "es-es", "minuteStepping":15,"useSeconds": false,"useCurrent":false});
+		var d = new Date();
+		var month = d.getMonth();
+		var day = d.getDate();
+		var year = d.getFullYear();
+		$("#id_inicio").data('datetimepicker').setLocalDate(new Date(year, month, day, 12, 00));
+		$("#id_fin").data('datetimepicker').setLocalDate(new Date(year, month, day, 12, 00));
+            });
+        </script>
+
+
+{% endblock %}
+
 
 {% block body %}
 {% if object.id %}
@@ -21,8 +43,14 @@
     <form action="" method="post">{% csrf_token %}
     {{ form|as_bootstrap }}
     <div class="form-actions">
-      <a href="#back" class="btn">Go back</a>
-      <button type="submit" class="btn btn-primary">Crear</button>
+      <a href="{% url 'webminar_gestion_lista' %}" class="btn">Cancelar</a>
+      <button type="submit" class="btn btn-primary">
+      	{% if object.id %}
+	Guardar
+	{% else %}
+	Crear
+	{% endif %}
+    </button>
     </div>
 </form>
 

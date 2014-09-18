@@ -6,14 +6,18 @@
 
 {% block body %}
     <h1>{% trans "Webminar List" %}</h1>
-    <a href="{% url 'webminar_nuevo' %}" class="button">Nuevo</a>
-    <ul>
+    <table class="table">
     {% for webminar in object_list %}
-    <li>{{ webminar.inicio }} {{ webminar.slug }} <a href="{{ webminar.get_absolute_url }}">Editar</a> <span class="glyphicon glyphicon-trash"></span>
+    <tr>
+	<td>{{ webminar.inicio }} </td>
+	<td>{{ webminar.slug }} </td>
+	<td> <a href="{{ webminar.get_absolute_url }}">Editar</a> <span class="glyphicon glyphicon-trash"></span>
         | <a href="{% url 'webminar_realizar' webminar.id %}">Realizar</a> <span class="glyphicon glyphicon-facetime-video"></span>
         | <a href="{% url 'webminar_ver' webminar.id %}">Ver</a> <span class="glyphicon glyphicon-film"></span>
         | <a href="{% url 'webminar_borrar' webminar.id %}">Borrar</a> <span class="glyphicon glyphicon-trash"></span>
-    </li>
+        </td>
+    </tr>
     {% endfor %}
-    </ul>
+    </table>
+    <a href="{% url 'webminar_nuevo' %}" class="btn btn-success">Nuevo</a>
 {% endblock %}

@@ -1,14 +1,18 @@
 {% extends "site_base.html" %}
 
 {% load i18n %}
+{% load bootstrap_tags %}
 
 {% block head_title %}{% trans "Nuevo Webminar" %}{% endblock %}
 
 {% block body %}
     
     <form action="" method="post">{% csrf_token %}
-    <p class="bg-danger">Atencion! ¿Seguro que desea borrar?</p>
-    <input type="submit" value="Borrar" />
+    <p class="bg-danger">Atencion!</p> ¿Seguro que desea borrar? La acción no es reversible.
+    <div class="form-actions">
+      <a href="#back" class="btn">Cancelar</a>
+      <button type="submit" class="btn btn-primary">Borrar</button>
+    </div>
 </form>
 
 {% endblock %}

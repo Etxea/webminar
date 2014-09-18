@@ -29,8 +29,9 @@
 
 {% block nav %}
  <ul class="nav navbar-nav">
-    <li><a href="{% url 'webminar_portada' %}">Webminar</a></li>
+    {% if request.user.is_authenticated %}
     <li><a href="{% url 'webminar_gestion_lista' %}">Gestion</a></li>
+    {% endif %}
 </ul>
 {% endblock %}
 
