@@ -1,14 +1,29 @@
 {% extends "site_base.html" %}
 
 {% load i18n %}
+{% load bootstrap_tags %}
 
-{% block head_title %}{% trans "Nuevo Webminar" %}{% endblock %}
+
+{% block head_title %}
+{% if object.id %}
+{% trans "Editar Webminar" %}
+{% else %}
+{% trans "Nuevo Webminar" %}
+{% endif %}
+{% endblock %}
 
 {% block body %}
+{% if object.id %}
+    <h1>Editar Webminar</h1>
+{% else %}
     <h1>Nuevo Webminar</h1>
+{% endif %}
     <form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Create" />
+    {{ form|as_bootstrap }}
+    <div class="form-actions">
+      <a href="#back" class="btn">Go back</a>
+      <button type="submit" class="btn btn-primary">Crear</button>
+    </div>
 </form>
 
 {% endblock %}
