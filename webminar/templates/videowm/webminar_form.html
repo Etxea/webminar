@@ -64,4 +64,17 @@
     {% endfor %}
 </table>
 {% endif %}
+
+{% if object.id %}
+<h3>Mensajes</h3>
+<table class="table" >
+    <thead><th>Fecha</th><th>De</th><th>Para</th><th>Texto</th></thead>
+    {%for mensaje in object.mensaje_set.all %}
+    <tr>
+        <td>{{mensaje.fecha}}</td><td>{{mensaje.de}}</td><td>{{mensaje.para}}</td><td>{{mensaje.texto}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
 {% endblock %}
