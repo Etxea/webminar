@@ -11,5 +11,8 @@ from videowm.views import *
 
 urlpatterns = patterns("",
     url(r"^$", PortadaView.as_view(), name="webminar_portada"),
-    url(r"^(?P<pk>\d+)/$", WebminarView.as_view(), name="webminar_ver"),
+    url(r"^(?P<pk>\d+)/$", WebminarIntroView.as_view(), name="webminar_intro"),
+    url(r"^(?P<pk>\d+)/ver/$", WebminarView.as_view(), name="webminar_ver"),
+    url(r"^(?P<webminar_id>\d+)/mensaje/enviar/$", WebminarMandarMensaje, name="webminar_mandar_mensaje"),
+    url(r"^(?P<pk>\d+)/mensaje/leer/$", WebminarLeerMensajes.as_view(), name="webminar_leer_mensajes"),
     )

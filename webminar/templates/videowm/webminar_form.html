@@ -53,5 +53,15 @@
     </button>
     </div>
 </form>
-
+{% if object.id %}
+<h3>Visitas</h3>
+<table class="table" >
+    <thead><th>Fecha</th><th>Quien</th></thead>
+    {%for visita in object.visita_set.all %}
+    <tr>
+        <td>{{visita.fecha}}</td><td>{{visita.quien}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
 {% endblock %}

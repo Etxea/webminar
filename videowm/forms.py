@@ -11,3 +11,6 @@ class WebminarForm(ModelForm):
             'fin' : DateTimePicker()
         }
 
+class MensajeForm(ModelForm):
+    class Meta:
+        model = Mensaje

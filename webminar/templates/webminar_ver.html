@@ -8,6 +8,42 @@
 
 {% block extra_script %}
 <script src="//vjs.zencdn.net/4.8/video.js"></script>
+<script>
+    $(function(){
+        var intervalID = setInterval(function(){$("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/");}, 5000);
+    });
+    
+    function enviar_mensaje() {
+        mensaje = $("#texto_mensaje").val();
+        //alert("Vamos a enviar mensaje: "+mensaje);
+        data = {"webminar": {{webminar.id}}, "de": "{{email}}", "para": "admin@admin.es","texto": mensaje};
+        //alert(data);
+        
+        $.ajax({
+            type: "POST",
+            url: "/webminar/{{ webminar.id }}/mensaje/enviar/",
+            data: data,
+            success: mensaje_enviado(data,status)
+            //error: mensaje_fallado(status,error),
+        });
+        
+    }
+    function mensaje_fallado(status,error) {
+        console.log("Error enviando el mensaje");
+        console.log(status);
+        console.log(error);
+    }
+    function mensaje_enviado(data,status) {
+        //FIXME
+        //alert(data["recibido"]);
+        //if data["recibido"] {};
+        console.log("Mensaje enviado");
+        console.log(status);
+        console.log(data);
+        $("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/");
+    }
+    
+</script>
 {% endblock %}
 
 {% block head_title %}{% trans "Realizar Webminar" %}{% endblock %}
@@ -16,12 +52,12 @@
 
 
 
-<h1>Webminar {{webminar.slug}}</h1>
+
 <div class="row">
 
 
     <div class="col-md-9">
-        <h3>Video</h3>
+        <h3>Hola <b>{{email}}</b> bienvenido al Webminar {{webminar.slug}}</h3>
         
         <video width="800" height="540" autoplay class="video-js vjs-default-skin" id="video_stream" >
             <source src="http://178.32.12.60:8080/vod/terradets.mp4" type="video/mp4" >
@@ -36,13 +72,10 @@
     </div>
     <div class="col-md-3">
         <h3>Mensajes</h3>
-        <p>Enviar mensaje:<input><button>Enviar</button></p>
+        
+        <p>Enviar mensaje:<input id="texto_mensaje"></input><button id="enviar_mensaje" onclick="enviar_mensaje();">Enviar</button></p>
         <div id="mensajes_list">
-        <ul>
-            <li><b>fulano@lalala.com</b>: Teno una duda</li>
-            <li><i>Administrador</i>: Las preguntas se responderan al finalizar la explicación</li>
-            <li><b>fulano@lalala.com</b>: Teno una duda</li>
-        </ul>
+        
         </div>
     </div>
 
