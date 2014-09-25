@@ -8,7 +8,7 @@
 
 
 
-<h1>Webminar {{webminar.slug}}</h1>
+<h1>{{webminar.slug}}</h1>
 <div class="row">
 
 
@@ -24,7 +24,7 @@
         <h3>Entrar</h3>
          <form role="form" method="POST" action="{% url 'webminar_ver' webminar.id %}">
           <div class="form-group">
-            <label for="email">Email address</label>
+            <label for="email">Dirección Email</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
           </div>
           <div class="form-group">
