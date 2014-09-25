@@ -33,3 +33,6 @@ class Mensaje(models.Model):
     para = models.EmailField()
     webminar = models.ForeignKey(Webminar)
     texto = models.CharField(max_length=255)
+    class Meta:
+        ordering = ["-fecha"]
+

@@ -14,7 +14,7 @@
     });
     
     function enviar_mensaje() {
-        mensaje = $("#texto_mensaje").val();
+        mensaje = $("#mensaje_input").val();
         //alert("Vamos a enviar mensaje: "+mensaje);
         data = {"webminar": {{webminar.id}}, "de": "{{email}}", "para": "admin@admin.es","texto": mensaje};
         //alert(data);
@@ -40,6 +40,7 @@
         console.log("Mensaje enviado");
         console.log(status);
         console.log(data);
+        $("#mensaje_input").val('');
         $("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/");
     }
     
@@ -73,9 +74,9 @@
     <div class="col-md-3">
         <h3>Mensajes</h3>
         
-        <p>Enviar mensaje:<input id="texto_mensaje"></input><button id="enviar_mensaje" onclick="enviar_mensaje();">Enviar</button></p>
+        <p>Enviar mensaje:<input id="mensaje_input" ></input><button id="enviar_mensaje" onclick="enviar_mensaje();">Enviar</button></p>
         <div id="mensajes_list">
-        
+        Cargando...
         </div>
     </div>
 

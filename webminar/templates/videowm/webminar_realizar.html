@@ -4,6 +4,48 @@
 
 {% block head_title %}{% trans "Realizar Webminar" %}{% endblock %}
 
+{% block extra_script %}
+<script src="//vjs.zencdn.net/4.8/video.js"></script>
+<script>
+    $(function(){
+        var intervalID = setInterval(function(){$("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/");}, 5000);
+    });
+    
+    function enviar_mensaje() {
+        mensaje = $("#mensaje_input").val();
+        //alert("Vamos a enviar mensaje: "+mensaje);
+        data = {"webminar": {{webminar.id}}, "de": "admin@admin.es", "para": "all@all.com","texto": mensaje};
+        //alert(data);
+        
+        $.ajax({
+            type: "POST",
+            url: "/webminar/{{ webminar.id }}/mensaje/enviar/",
+            data: data,
+            success: mensaje_enviado(data,status)
+            //error: mensaje_fallado(status,error),
+        });
+        
+    }
+    function mensaje_fallado(status,error) {
+        console.log("Error enviando el mensaje");
+        console.log(status);
+        console.log(error);
+    }
+    function mensaje_enviado(data,status) {
+        //FIXME
+        //alert(data["recibido"]);
+        //if data["recibido"] {};
+        console.log("Mensaje enviado");
+        console.log(status);
+        console.log(data);
+        $("#mensaje_input").val('');
+        $("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/");
+    }
+    
+</script>
+{% endblock %}
+
+
 {% block body %}
 <h1>Webminar {{webminar.slug}}</h1>
 <div class="row">
@@ -25,19 +67,16 @@
     </div>
     <div class="col-md-6">
         <h3>Mensajes</h3>
-        <p>Enviar mensaje:<input><button>Enviar</button></p>
-        <div id="mensajes_list">
-        <ul>
-            <li><b>fulano@lalala.com</b>: Teno una duda</li>
-            <li><i>Administrador</i>: Las preguntas se responderan al finalizar la explicación</li>
-            <li><b>fulano@lalala.com</b>: Teno una duda</li>
-        </ul>
+        <p>Enviar mensaje:<input id="mensaje_input" ><button id="enviar_mensaje" onclick="enviar_mensaje();" >Enviar</button></p>
+        <div id="mensajes_list" style="overflow-y: scroll" >
+        Cargando...
         </div>
     </div>
 
     <div class="col-md-2">
         
         <h3>Asistentes</h3>
+        <div id="mensajes_list" style="overflow-y: scroll">
         <ul>
             <li>fulano@lalala.com</li>
             <li>fulano@lalala.com</li>
@@ -57,7 +96,7 @@
             <li>fulano@lalala.com</li>
             <li>fulano@lalala.com</li>
         </ul>
-        
+        </div>
     </div>
 </div>
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView,ListView,DetailView
 from django.views.generic.edit import CreateView
 from django.views.decorators.http import require_http_methods
@@ -81,3 +81,7 @@ def WebminarMandarMensaje(request, webminar_id):
 class WebminarLeerMensajes(ListView):
     model = Mensaje
     template_name = "webminar_mensajes.html"
+    def get_queryset(self):
+        print self.kwargs
+        self.webminar = get_object_or_404(Webminar, pk=self.kwargs['webminar_id'])
+        return Mensaje.objects.filter(webminar=self.webminar)
