@@ -3,8 +3,11 @@
 
 
 <ul class="nav navbar-nav pull-right">
+    {% if email %}
+        <li><a href="#">Hola <b>{{email}}</b></a></li>
+    {% endif %}
     {% if request.user.is_authenticated %}
-        <p class="navbar-text">
+<!--        <p class="navbar-text">
             <i class="fa fa-user"></i> {% user_display request.user %}
         </p>
         <li>
@@ -13,10 +16,17 @@
         <li>
             <a id="account_logout" href="{% url 'account_logout' %}"><i class="fa fa-power-off"></i> {% trans "Log out" %}</a>
         </li>
+        -->
+    <li>
+            <a id="account_logout" href="{% url 'account_logout' %}"><i class="fa fa-power-off"></i></a>
+    </li>
     {% else %}
-        <li><a href="{% url 'account_login' %}">{% trans "Log in" %}</a></li>
+        <!--<li><a href="{% url 'account_login' %}">{% trans "Log in" %}</a></li>-->
+        <li><a href="{% url 'account_login' %}"><i class="fa fa-wrench"></i></a></li>
         {% if ACCOUNT_OPEN_SIGNUP %}
             <li><a href="{% url 'account_signup' %}">{% trans "Sign up" %}</a></li>
+            
+            
         {% endif %}
     {% endif %}
 </ul>

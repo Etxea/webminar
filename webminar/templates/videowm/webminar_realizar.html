@@ -14,7 +14,7 @@
     function enviar_mensaje() {
         mensaje = $("#mensaje_input").val();
         //alert("Vamos a enviar mensaje: "+mensaje);
-        data = {"webminar": {{webminar.id}}, "de": "admin@admin.es", "para": "all@all.com","texto": mensaje};
+        data = {"webminar": {{webminar.id}}, "de": "admin@admin.es", "para": "all@all.all","texto": mensaje};
         //alert(data);
         
         $.ajax({

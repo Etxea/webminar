@@ -78,10 +78,24 @@ def WebminarMandarMensaje(request, webminar_id):
         data = "{ 'recibido': False. 'mensaje': '%s' }"%form.errors
     return HttpResponse(data, content_type='application/json')
     
+
+class WebminarLeerTodosMensajes(ListView):
+    model = Mensaje
+    template_name = "webminar_mensajes.html"
+    def get_queryset(self):
+        
+        self.webminar = get_object_or_404(Webminar, pk=self.kwargs['webminar_id'])
+        return Mensaje.objects.filter(webminar=self.webminar)
+
+
+from django.db.models import Q
+
 class WebminarLeerMensajes(ListView):
     model = Mensaje
     template_name = "webminar_mensajes.html"
     def get_queryset(self):
         print self.kwargs
+        email = self.kwargs['email']
+        print "Vamos a buscar los mensajes para",email
         self.webminar = get_object_or_404(Webminar, pk=self.kwargs['webminar_id'])
-        return Mensaje.objects.filter(webminar=self.webminar)
+        return Mensaje.objects.filter(Q(webminar=self.webminar)&((Q(de=email) | Q(para=email) | Q(para="all@all.all"))))

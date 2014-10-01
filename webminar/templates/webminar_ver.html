@@ -2,6 +2,8 @@
 
 {% load i18n %}
 
+{% block head_title %}{% trans "Ver Webminar" %}{% endblock %}
+
 {% block extra_head %}
 <link href="//vjs.zencdn.net/4.8/video-js.css" rel="stylesheet">
 {% endblock %}
@@ -9,9 +11,11 @@
 {% block extra_script %}
 <script src="//vjs.zencdn.net/4.8/video.js"></script>
 <script>
-    $(function(){
-        var intervalID = setInterval(function(){$("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/");}, 5000);
-    });
+    
+    function cargar_mensajes(email) {
+        console.log("Vamos a cargar los mensajes generales y para "+email);
+        $("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/"+email+"/");
+    }
     
     function enviar_mensaje() {
         mensaje = $("#mensaje_input").val();
@@ -41,13 +45,19 @@
         console.log(status);
         console.log(data);
         $("#mensaje_input").val('');
-        $("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/");
+        cargar_mensajes("{{email}}")
     }
+    
+    $(function(){
+        console.log("Ponemos el intervalo");
+        
+        var intervalID = setInterval(function(){$("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/{{email}}/");}, 5000);
+        console.log("Intervalo "+intervalID+" creado");
+    });
     
 </script>
 {% endblock %}
 
-{% block head_title %}{% trans "Realizar Webminar" %}{% endblock %}
 
 {% block body %}
 
@@ -55,13 +65,9 @@
 
 
 <div class="row">
-
-
     <div class="col-md-9">
-        <h3>Hola <b>{{email}}</b> bienvenido al Webminar {{webminar.slug}}</h3>
-        
         <video width="800" height="540" autoplay class="video-js vjs-default-skin" id="video_stream" >
-            <source src="http://178.32.12.60:8080/vod/terradets.mp4" type="video/mp4" >
+            <!--<source src="http://178.32.12.60:8080/vod/terradets.mp4" type="video/mp4" >-->
              <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
         </video>
         <h3>Detalles</h3>
