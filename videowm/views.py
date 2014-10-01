@@ -78,7 +78,7 @@ def WebminarMandarMensaje(request, webminar_id):
         data = "{ 'recibido': False. 'mensaje': '%s' }"%form.errors
     return HttpResponse(data, content_type='application/json')
     
-
+from django.db.models import Count
 class WebminarLeerTodosMensajes(ListView):
     model = Mensaje
     template_name = "webminar_mensajes.html"
@@ -86,6 +86,14 @@ class WebminarLeerTodosMensajes(ListView):
         
         self.webminar = get_object_or_404(Webminar, pk=self.kwargs['webminar_id'])
         return Mensaje.objects.filter(webminar=self.webminar)
+
+class WebminarAsistentes(ListView):
+    model = Visita
+    template_name = "videowm/asistentes_list.html"
+    def get_queryset(self):
+        self.webminar = get_object_or_404(Webminar, pk=self.kwargs['webminar_id'])
+        return Visita.objects.filter(webminar=self.webminar).values('fecha','quien').annotate(dcount=Count('quien'))
+
 
 
 from django.db.models import Q

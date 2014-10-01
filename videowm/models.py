@@ -9,7 +9,7 @@ class Webminar(models.Model):
     fin = models.DateTimeField()
     historico_url = models.CharField(default="#",null=True,max_length=250)
     def __unicode__(self):
-        return "%s"%(self.id_slug)
+        return "%s"%(self.slug)
     def get_absolute_url(self):
         #FIXME usar un url resolver
         return "/gestion/editar/%d/" % self.id

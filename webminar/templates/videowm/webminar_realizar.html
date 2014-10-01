@@ -5,10 +5,12 @@
 {% block head_title %}{% trans "Realizar Webminar" %}{% endblock %}
 
 {% block extra_script %}
-<script src="//vjs.zencdn.net/4.8/video.js"></script>
+<script src="/site_media/static/js/video.js"></script>
 <script>
     $(function(){
-        var intervalID = setInterval(function(){$("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/");}, 5000);
+        var interval_1_ID = setInterval(function(){$("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/");}, 5000);
+        var interval_2_ID = setInterval(function(){$("#asistentes_list").load("/webminar/{{ webminar.id }}/asistentes/");}, 5000);
+        
     });
     
     function enviar_mensaje() {
@@ -54,7 +56,7 @@
     <div class="col-md-4">
         <h3>Video</h3>
         <video width="66%" autoplay class="video-js vjs-default-skin" id="video_stream" >
-            <source src="http://178.32.12.60:8080/vod/terradets.mp4" type="video/mp4" >
+            <!-- <source src="http://178.32.12.60:8080/vod/terradets.mp4" type="video/mp4" >-->
              <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
         </video>
 	
@@ -76,26 +78,8 @@
     <div class="col-md-2">
         
         <h3>Asistentes</h3>
-        <div id="mensajes_list" style="overflow-y: scroll">
-        <ul>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-            <li>fulano@lalala.com</li>
-        </ul>
+        <div id="asistentes_list" style="overflow-y: scroll">
+        Cargando...
         </div>
     </div>
 </div>
