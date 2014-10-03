@@ -1,15 +1,24 @@
 {% extends "site_base.html" %}
 
 {% load i18n %}
+{% load staticfiles %}
 
 {% block head_title %}{% trans "Ver Webminar" %}{% endblock %}
 
 {% block extra_head %}
-<link href="//vjs.zencdn.net/4.8/video-js.css" rel="stylesheet">
+
+  <link href='{% static "video-js/video-js.css"%}' rel="stylesheet" type="text/css">
+  <!-- video.js must be in the <head> for older IEs to work. -->
+  <script src='{% static "video-js/video.js" %}'></script>
+  <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
+  <script>
+    videojs.options.flash.swf = '{% static "video-js/video-js.swf" %}';
+  </script>
 {% endblock %}
 
 {% block extra_script %}
-<script src="/site_media/static/js/video.js"></script>
+
+
 <script>
     
     function cargar_mensajes(email) {
@@ -66,9 +75,10 @@
 
 <div class="row">
     <div class="col-md-9">
-        <video width="800" height="540" autoplay class="video-js vjs-default-skin" id="video_stream" >
-            <source src="http://178.32.12.60:8080/vod/dejame_vivir.mp4" type="video/mp4" >
-             <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+        <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="640" height="264" autoplay data-setup="{}">
+    
+            <source src="rtmp://178.32.12.60/emision/prueba" type='rtmp/mp4' >
+    
         </video>
         <h3>Detalles</h3>
         <ul>

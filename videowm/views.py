@@ -7,6 +7,9 @@ from django.views.decorators.http import require_http_methods
 import json
 from django.http import HttpResponse
 
+from django.db.models import Q
+from django.db.models import Count
+
 import datetime
 from models import *
 from forms import *
@@ -40,21 +43,31 @@ class WebminarView(DetailView):
     ##Si es un get lo reenviamos a la intro
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
+        if 'password' in self.request.POST:
+            print "Comprobamos el password",self.object.password,request.POST['password']
         return redirect(self.object.get_intro_url())
     def post(self, request, *args, **kwargs):
         ##FIXME comprobar la contraseña
+        
         ##Apuntar una visita
-        #print self.request
-        #print self.request.POST
-        if 'email' in self.request.POST:
-            print "Nos visita ",request.POST['email']
-            visita = Visita(webminar=self.get_object(),quien=request.POST['email'])
-            print "Creando visita"
-            visita.save()
-            print "Visita guardada"
-            return super(WebminarView, self).get(request, *args, **kwargs)
+        if 'password' in self.request.POST:
+            print "Comprobamos el password",request.POST['password']
+            if request.POST['password']==self.get_object().password:
+                if 'email' in self.request.POST:
+                    print "Nos visita ",request.POST['email']
+                    visita = Visita(webminar=self.get_object(),quien=request.POST['email'])
+                    print "Creando visita"
+                    visita.save()
+                    print "Visita guardada"
+                    return super(WebminarView, self).get(request, *args, **kwargs)
+                else:
+                    print "No hay email el mandamos a la intro"
+                    return redirect(self.get_object().get_intro_url())
+            else:
+                print "Password MAL le mandamos a la intro"
+                return redirect(self.get_object().get_intro_url())
         else:
-            print "No hay email el mandamos a la intro"
+            print "No hay password le mandamos a la intro"
             return redirect(self.get_object().get_intro_url())
      
     def get_context_data(self, **kwargs):
@@ -65,20 +78,19 @@ class WebminarView(DetailView):
 
 @require_http_methods(["POST"])
 def WebminarMandarMensaje(request, webminar_id):
-    print "hemos recibido ",request.POST
+    #print "hemos recibido ",request.POST
     form = MensajeForm(request.POST)
     # check whether it's valid:
     if form.is_valid():
         form.save()
         data = "{ 'recibido': True }"
-        print "Mensaje guardado"
+        #print "Mensaje guardado"
     else:
-        print form.errors
-        print "Mensaje NO guardado"
+        #print form.errors
+        #print "Mensaje NO guardado"
         data = "{ 'recibido': False. 'mensaje': '%s' }"%form.errors
     return HttpResponse(data, content_type='application/json')
-    
-from django.db.models import Count
+
 class WebminarLeerTodosMensajes(ListView):
     model = Mensaje
     template_name = "webminar_mensajes.html"
@@ -94,16 +106,12 @@ class WebminarAsistentes(ListView):
         self.webminar = get_object_or_404(Webminar, pk=self.kwargs['webminar_id'])
         return Visita.objects.filter(webminar=self.webminar).values('fecha','quien').annotate(dcount=Count('quien'))
 
-
-
-from django.db.models import Q
-
 class WebminarLeerMensajes(ListView):
     model = Mensaje
     template_name = "webminar_mensajes.html"
     def get_queryset(self):
-        print self.kwargs
+        #print self.kwargs
         email = self.kwargs['email']
-        print "Vamos a buscar los mensajes para",email
+        #print "Vamos a buscar los mensajes para",email
         self.webminar = get_object_or_404(Webminar, pk=self.kwargs['webminar_id'])
         return Mensaje.objects.filter(Q(webminar=self.webminar)&((Q(de=email) | Q(para=email) | Q(para="all@all.all"))))
