@@ -15,14 +15,17 @@
         
         <div class="col-sm-3 col-sm-offset-2">
             {% if siguiente_webminar %}
-                <a href="{{ siguiente_webminar.get_intro_url }}" class="btn btn-primary btn-lg" role="button">{{ siguiente_webminar.slug }}<br />Hora: {{ siguiente_webminar.inicio }} </a>
+                <a href="{{ siguiente_webminar.get_intro_url }}" class="btn btn-primary btn-lg" role="button" data-toggle="tooltip" data-placement="top" title="{{ siguiente_webminar.descripcion}}" >
+                    {{ siguiente_webminar.titulo }}<br />Inicio: {{ siguiente_webminar.inicio }} 
+                </a>
             {% else %}
                 <a href="#" class="btn btn-default btn-lg" role="button"> No hay ningun Webminar<br />programado </a>
             {% endif %}
         </div>
         <div class="col-sm-3 col-sm-offset-1">
             {% if proximo_webminar %}
-                <p class="btn btn-default btn-lg" role="button">{{ proximo_webminar.slug }} <br />Hora: {{ proximo_webminar.inicio }}</p>
+                <p class="btn btn-default btn-lg" role="button" data-toggle="tooltip" data-placement="top" title="{{ proximo_webminar.descripcion}}">
+                    {{ proximo_webminar.titulo }} <br />Inicio: {{ proximo_webminar.inicio }}</p>
             {% else %}
                 <a href="#" class="btn btn-default btn-lg" role="button"> No hay ningun Webminar<br />programado </a>
             {% endif %}

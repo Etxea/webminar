@@ -24,6 +24,7 @@
     function cargar_mensajes(email) {
         console.log("Vamos a cargar los mensajes generales y para "+email);
         $("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/"+email+"/");
+        $("#mensajes_list").scrollTop($("#mensajes_list").height());
     }
     
     function enviar_mensaje() {
@@ -60,7 +61,10 @@
     $(function(){
         console.log("Ponemos el intervalo");
         
-        var intervalID = setInterval(function(){$("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/{{email}}/");}, 5000);
+        var intervalID = setInterval(function(){
+            $("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/{{email}}/");
+            $("#mensajes_list").scrollTop($("#mensajes_list").height());
+            }, 5000);
         console.log("Intervalo "+intervalID+" creado");
         
         $('#mensaje_input').keypress(function(e) {

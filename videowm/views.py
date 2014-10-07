@@ -91,13 +91,6 @@ def WebminarMandarMensaje(request, webminar_id):
         data = "{ 'recibido': False. 'mensaje': '%s' }"%form.errors
     return HttpResponse(data, content_type='application/json')
 
-class WebminarLeerTodosMensajes(ListView):
-    model = Mensaje
-    template_name = "webminar_mensajes.html"
-    def get_queryset(self):
-        
-        self.webminar = get_object_or_404(Webminar, pk=self.kwargs['webminar_id'])
-        return Mensaje.objects.filter(webminar=self.webminar)
 
 class WebminarAsistentes(ListView):
     model = Visita
@@ -106,6 +99,16 @@ class WebminarAsistentes(ListView):
         self.webminar = get_object_or_404(Webminar, pk=self.kwargs['webminar_id'])
         return Visita.objects.filter(webminar=self.webminar).values('fecha','quien').annotate(dcount=Count('quien'))
 
+##Esto enseña todos los mensajes, solo para admin
+## FIXNE hace falta estar logeado!
+class WebminarLeerTodosMensajes(ListView):
+    model = Mensaje
+    template_name = "webminar_mensajes.html"
+    def get_queryset(self):
+        self.webminar = get_object_or_404(Webminar, pk=self.kwargs['webminar_id'])
+        return Mensaje.objects.filter(webminar=self.webminar).order_by('fecha')
+
+##Esto muestra solo los mensajes de o para el email y los que son para all
 class WebminarLeerMensajes(ListView):
     model = Mensaje
     template_name = "webminar_mensajes.html"
@@ -114,4 +117,4 @@ class WebminarLeerMensajes(ListView):
         email = self.kwargs['email']
         #print "Vamos a buscar los mensajes para",email
         self.webminar = get_object_or_404(Webminar, pk=self.kwargs['webminar_id'])
-        return Mensaje.objects.filter(Q(webminar=self.webminar)&((Q(de=email) | Q(para=email) | Q(para="all@all.all"))))
+        return Mensaje.objects.filter(Q(webminar=self.webminar)&((Q(de=email) | Q(para=email) | Q(para="all@all.all")))).order_by('fecha')
