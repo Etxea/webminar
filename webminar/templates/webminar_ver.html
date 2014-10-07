@@ -62,6 +62,16 @@
         
         var intervalID = setInterval(function(){$("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/{{email}}/");}, 5000);
         console.log("Intervalo "+intervalID+" creado");
+        
+        $('#mensaje_input').keypress(function(e) {
+            // Enter pressed?
+            
+            if(e.which == 10 || e.which == 13) {
+                console.log("Mandamos el mensaje");
+                enviar_mensaje();
+            }
+        });
+        
     });
     
 </script>
@@ -82,16 +92,16 @@
         </video>
         <h3>Detalles</h3>
         <ul>
-            <li>{{webminar.slug}}</li>
-            <li>{{webminar.inicio}}</li>
-            <li>{{webminar.fin}}</li>
+            <li>{{webminar.titulo}}</li>
+            <li>{{webminar.descripcion}}</li>
+            <li>Desde {{webminar.inicio}} hasta {{webminar.fin}}</li>
         </ul>
     </div>
     <div class="col-md-3">
         <h3>Preguntas</h3>
-        
-        <p>Enviar pregunta<input id="mensaje_input" ></input><button id="enviar_mensaje" onclick="enviar_mensaje();">Enviar</button></p>
-        <div id="mensajes_list">
+        <input id="mensaje_input"  class="form-control" placeholder="Escriba su pregunta(max 250 caracteres)" ></input>
+        <!-- <button id="enviar_mensaje" onclick="enviar_mensaje();">Enviar</button> -->
+        <div id="mensajes_list" style="overflow-y: scroll; height: 370px" >
         Cargando...
         </div>
     </div>

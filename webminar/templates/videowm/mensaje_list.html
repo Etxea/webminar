@@ -1,5 +1,5 @@
-<ul>
+
 {%for mensaje in object_list %}
-<li>{{mensaje.de}}: {{mensaje.texto}}</li>
+[<b>{{mensaje.fecha|date:"H:m"}}</b>] <i>{{mensaje.de}}</i> {{mensaje.texto}}<br />
 {% endfor %}
-</ul>
+
