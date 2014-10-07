@@ -11,6 +11,9 @@
     {% block extra_style %}{% endblock %}
 {% endblock %}
 
+{% block site_brand %}
+<a class="navbar-brand" href='{% url "home" %}'><img src="{% static "img/logo.png" %}" /></a>
+{% endblock %}
 
 {% block extra_head_base %}
     {% block extra_head %}{% endblock %}
