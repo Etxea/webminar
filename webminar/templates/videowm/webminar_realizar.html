@@ -7,14 +7,7 @@
 {% block extra_script %}
 <script src="/site_media/static/js/video.js"></script>
 <script>
-    $(function(){
-        var interval_1_ID = setInterval(function(){
-            $("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/");
-            $("#mensajes_list").scrollTop($("#mensajes_list").height());
-            }, 5000);
-        var interval_2_ID = setInterval(function(){$("#asistentes_list").load("/webminar/{{ webminar.id }}/asistentes/");}, 5000);
-        
-    });
+    
     
     function enviar_mensaje() {
         mensaje = $("#mensaje_input").val();
@@ -30,24 +23,50 @@
             //error: mensaje_fallado(status,error),
         });
         
-    }
+    };
+    
     function mensaje_fallado(status,error) {
         console.log("Error enviando el mensaje");
         console.log(status);
         console.log(error);
-    }
-    function mensaje_enviado(data,status) {
-        //FIXME
-        //alert(data["recibido"]);
-        //if data["recibido"] {};
-        console.log("Mensaje enviado");
-        console.log(status);
-        console.log(data);
-        $("#mensaje_input").val('');
-        $("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/");
         $("#mensajes_list").scrollTop($("#mensajes_list").height());
-    }
+    };
     
+    function mensaje_enviado(data,status) {
+        console.log("Mensaje enviado");
+        $("#mensaje_input").val('');
+        cargar_mensajes();
+    };
+    
+    function cargar_mensajes() {
+        console.log("Samos cargar_mensajes");
+        $("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/");
+        console.log("Ajustamos el scroll");
+        //$("#mensajes_list").scrollTop($("#mensajes_list").height());
+        $("#mensajes_list").scrollTop(600);
+    };
+    
+    $(function(){
+        var interval_1_ID = setInterval(function(){
+            cargar_mensajes();
+            }, 5000);
+        var interval_2_ID = setInterval(function(){$("#asistentes_list").load("/webminar/{{ webminar.id }}/asistentes/");}, 5000);
+        
+        cargar_mensajes();
+        
+        //para el envio de mensajes al presionar enter
+        $('#mensaje_input').keypress(function(e) {
+            // Enter pressed?
+            
+            if(e.which == 10 || e.which == 13) {
+                console.log("Mandamos el mensaje");
+                enviar_mensaje();
+                
+                
+            }
+        });
+        
+    });
 </script>
 {% endblock %}
 
@@ -73,10 +92,11 @@
     </div>
     <div class="col-md-6">
         <h3>Mensajes</h3>
-        <p>Enviar mensaje:<input id="mensaje_input" ><button id="enviar_mensaje" onclick="enviar_mensaje();" >Enviar</button></p>
-        <div id="mensajes_list" style="overflow-y: scroll; height: 600px" >
+        
+        <div id="mensajes_list" style="overflow-y: scroll; height: 450px" >
         Cargando...
         </div>
+        <br /><input id="mensaje_input" class="form-control" placeholder="Escriba su mensaje (max 250 caracteres)">
     </div>
 
     <div class="col-md-2">
