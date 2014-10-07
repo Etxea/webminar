@@ -24,7 +24,7 @@ class PortadaView(ListView):
         # Call the base implementation first to get a context
         context = super(PortadaView, self).get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-        webminars_pendientes = Webminar.objects.filter(fin__gt=datetime.datetime.now).order_by('-inicio')
+        webminars_pendientes = Webminar.objects.filter(fin__gt=datetime.datetime.now).order_by('inicio')
         try:
             context['siguiente_webminar'] = webminars_pendientes[0]
             context['proximo_webminar'] = webminars_pendientes[1]

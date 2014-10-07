@@ -34,14 +34,14 @@
     <h3>Histórico</h3>
     <ul>
         {% for webminar in object_list %}
-        <li> {{ webminar.inicio }} {{ webminar.get_historico_url }}
-            {% if webminar.get_historico_url == "#" %}
-                <a herf="{{ webminar.get_historico_url }}">
-                {{ webminar.slug }}
-                </a>
-            {% else %}
+        <li> {{ webminar.inicio |date:"SHORT_DATE_FORMAT" }} {{ webminar.titulo }}
+                <a href="{{ webminar.get_historico_url }}">
+            {% if webminar.historico_url == "#" %}
                 Aun no se ha colgado el vídeo.
+            {% else %}
+                {{ webminar.slug }}
             {% endif %}
+                </a>
         </li>
         {% endfor %}
     </ul>
