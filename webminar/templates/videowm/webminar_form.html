@@ -36,45 +36,63 @@
 
 {% block body %}
 {% if object.id %}
-    <h1>Editar Webminar</h1>
+    <h1>Editar Webminar {{object.titulo}}</h1>
 {% else %}
     <h1>Nuevo Webminar</h1>
 {% endif %}
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="#home" role="tab" data-toggle="tab">Detalles</a></li>
+  {% if object.id %}
+  <li><a href="#mensajes" role="tab" data-toggle="tab">Mensajes</a></li>
+  <li><a href="#visitas" role="tab" data-toggle="tab">Visitas</a></li>
+  {% endif %}
+  
+</ul>
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane active" id="home">
     <form action="" method="post">{% csrf_token %}
     {{ form|as_bootstrap }}
     <div class="form-actions">
       <a href="{% url 'webminar_gestion_lista' %}" class="btn">Cancelar</a>
       <button type="submit" class="btn btn-primary">
       	{% if object.id %}
-	Guardar
-	{% else %}
-	Crear
-	{% endif %}
-    </button>
-    </div>
-</form>
-{% if object.id %}
-<h3>Visitas</h3>
-<table class="table" >
-    <thead><th>Fecha</th><th>Quien</th></thead>
-    {%for visita in object.visita_set.all %}
-    <tr>
-        <td>{{visita.fecha}}</td><td>{{visita.quien}}</td>
-    </tr>
-    {% endfor %}
-</table>
-{% endif %}
+        Guardar
+        {% else %}
+        Crear
+        {% endif %}
+        </button>
+        </div>
+    </form>
+</div>
 
-{% if object.id %}
-<h3>Mensajes</h3>
-<table class="table" >
-    <thead><th>Fecha</th><th>De</th><th>Para</th><th>Texto</th></thead>
-    {%for mensaje in object.mensaje_set.all %}
-    <tr>
-        <td>{{mensaje.fecha}}</td><td>{{mensaje.de}}</td><td>{{mensaje.para}}</td><td>{{mensaje.texto}}</td>
-    </tr>
-    {% endfor %}
-</table>
-{% endif %}
+<div class="tab-pane" id="visitas">
+    <h3>Visitas</h3>
+    {% if object.id %}
+    <table class="table" >
+        <thead><th>Fecha</th><th>Quien</th></thead>
+        {%for visita in object.visita_set.all %}
+        <tr>
+            <td>{{visita.fecha}}</td><td>{{visita.quien}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
 
+<div class="tab-pane" id="mensajes">
+
+    <h3>Mensajes</h3>
+    {% if object.id %}
+    <table class="table" >
+        <thead><th>Fecha</th><th>De</th><th>Para</th><th>Texto</th></thead>
+        {%for mensaje in object.mensaje_set.all %}
+        <tr>
+            <td>{{mensaje.fecha}}</td><td>{{mensaje.de}}</td><td>{{mensaje.para}}</td><td>{{mensaje.texto}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
 {% endblock %}
