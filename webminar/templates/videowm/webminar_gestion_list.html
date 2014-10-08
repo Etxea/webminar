@@ -5,7 +5,8 @@
 {% block head_title %}{% trans "Gestión" %}{% endblock %}
 
 {% block body %}
-    <h1>{% trans "Listado de Webminars" %}</h1>
+    <h1>{% trans "Listado de Webminars" %} <a href="{% url 'webminar_nuevo' %}" class="btn btn-success">Nuevo</a> </h1>
+    
     <table class="table">
         <thead>
             <th>Título</th>
@@ -40,5 +41,5 @@
         {% endfor %}
     </table>
      {% include "pagination/pagination.html" %}
-    <a href="{% url 'webminar_nuevo' %}" class="btn btn-success">Nuevo</a>
+    
 {% endblock %}

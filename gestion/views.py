@@ -24,11 +24,19 @@ def exportar_mensajes(request,pk):
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
-
     writer = csv.writer(response)
     writer.writerow(['Fecha', 'De', 'Para', 'Texto'])
     for mensaje in webminar.mensaje_set.all().order_by('-fecha'):
-        print mensaje.fecha, mensaje.de, mensaje.para, mensaje.texto
         writer.writerow([mensaje.fecha, mensaje.de, mensaje.para, mensaje.texto])
-    print response
+    return response
+
+def exportar_visitas(request,pk):
+    webminar = get_object_or_404(Webminar, pk=pk)
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['Fecha', 'Quien'])
+    for mensaje in webminar.visita_set.all().order_by('-fecha'):
+        writer.writerow([mensaje.fecha, mensaje.quien])
     return response

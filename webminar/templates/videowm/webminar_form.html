@@ -102,6 +102,7 @@
 <div class="tab-pane" id="visitas">
     <h3>Visitas</h3>
     {% if object.id %}
+    <a href="{% url 'webminar_exportar_visitas' object.id %}">Exportar</a>
     <table class="table" >
         <thead><th>Fecha</th><th>Quien</th></thead>
         {%for visita in object.visita_set.all %}
