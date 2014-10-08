@@ -80,14 +80,15 @@ class WebminarView(DetailView):
 def WebminarMandarMensaje(request, webminar_id):
     #print "hemos recibido ",request.POST
     form = MensajeForm(request.POST)
+    print request.POST
     # check whether it's valid:
     if form.is_valid():
         form.save()
         data = "{ 'recibido': True }"
         #print "Mensaje guardado"
     else:
-        #print form.errors
-        #print "Mensaje NO guardado"
+        print form.errors
+        print "Mensaje NO guardado"
         data = "{ 'recibido': False. 'mensaje': '%s' }"%form.errors
     return HttpResponse(data, content_type='application/json')
 
