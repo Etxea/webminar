@@ -13,25 +13,26 @@
         <h1>{% trans "Bienvenido a el sistema de Webminars de Beovipel" %}</h1>
         <br />
         
-        <div class="col-sm-3 col-sm-offset-2">
+        <div class="col-sm-4 col-sm-offset-1">
             {% if siguiente_webminar %}
                 <a href="{{ siguiente_webminar.get_intro_url }}" class="btn btn-primary btn-lg" role="button" data-toggle="tooltip" data-placement="top" title="{{ siguiente_webminar.descripcion}}" >
-                    {{ siguiente_webminar.titulo }}<br />Inicio: {{ siguiente_webminar.inicio }} 
+                    {{ siguiente_webminar.titulo }}<br />Inicio: {{ siguiente_webminar.inicio }}<br />Inicio: {{ siguiente_webminar.fin }} 
                 </a>
             {% else %}
                 <a href="#" class="btn btn-default btn-lg" role="button"> No hay ningun Webminar<br />programado </a>
             {% endif %}
         </div>
-        <div class="col-sm-3 col-sm-offset-1">
+        <div class="col-sm-2 col-sm-offset-1">
             {% if proximo_webminar %}
                 <p class="btn btn-default btn-lg" role="button" data-toggle="tooltip" data-placement="top" title="{{ proximo_webminar.descripcion}}">
-                    {{ proximo_webminar.titulo }} <br />Inicio: {{ proximo_webminar.inicio }}</p>
+                    {{ proximo_webminar.titulo }} <br />Inicio: {{ proximo_webminar.inicio }}</p><br />Inicio: {{ proximo_webminar.fin }}</p>
             {% else %}
                 <a href="#" class="btn btn-default btn-lg" role="button"> No hay ningun Webminar<br />programado </a>
             {% endif %}
         </div>
     </div>
     <h3>Histórico</h3>
+    
     <ul>
         {% for webminar in object_list %}
         <li> {{ webminar.inicio |date:"SHORT_DATE_FORMAT" }} {{ webminar.titulo }}
@@ -45,5 +46,6 @@
         </li>
         {% endfor %}
     </ul>
+    {% include "pagination/pagination.html" %}
     
 {% endblock %}

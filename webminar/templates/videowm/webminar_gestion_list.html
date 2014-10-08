@@ -39,5 +39,6 @@
         </tr>
         {% endfor %}
     </table>
+     {% include "pagination/pagination.html" %}
     <a href="{% url 'webminar_nuevo' %}" class="btn btn-success">Nuevo</a>
 {% endblock %}

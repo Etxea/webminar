@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 import os
-
+from django.utils.translation import ugettext_lazy as _
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 PACKAGE_ROOT = os.path.abspath(os.path.dirname(__file__))
@@ -24,9 +25,13 @@ DATABASES = {
 # system time zone.
 TIME_ZONE = "Europe/Madrid"
 
+LANGUAGES = (
+    ('es', _('Español')),
+)
+
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = "es-es"
+LANGUAGE_CODE = "es"
 
 SITE_ID = int(os.environ.get("SITE_ID", 1))
 
@@ -183,6 +188,8 @@ LOGIN_URL="/account/login/"
 AUTHENTICATION_BACKENDS = [
     "account.auth_backends.UsernameAuthenticationBackend",
 ]
+
+THEME_CONTACT_EMAIL="soporte@kernet.es"
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

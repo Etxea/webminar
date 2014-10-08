@@ -16,19 +16,51 @@
 {% block extra_script %}
 <!-- para el datepicker -->
 {{ form.media }}
-
-        <script>
-            $(function() {
-                $("#id_inicio").datetimepicker({"weekStart": 1, "language": "es-es", "minuteStepping":15,"useSeconds": false,"useCurrent":false});
-                $("#id_fin").datetimepicker({"weekStart": 1, "language": "es-es", "minuteStepping":15,"useSeconds": false,"useCurrent":false});
+<script>
+    function check_fechas(ev) {
+        console.log("Cambian el final, vamos a comparar");
+                inicio = new Date($("#id_inicio").val());
+                fin = new Date($("#id_fin").val());
+                console.log(inicio);
+                console.log(fin);
+                if (inicio > fin)
+                {
+                    console.log("Mal");
+                    alert("La fecha de fin nopuede ser anterior a la de inicio, compruebe las fechas");
+                } else {
+                    console.log("Bien");
+                }
+    };
+    $(function() {
+        console.log("Vamos con los datepickers");
+        $("#id_inicio").datetimepicker(
+            {"weekStart": 1, 
+                "language": "es-es", 
+                "minuteStepping":15,
+                "useSeconds": false,
+                "useCurrent":true
+                
+            });
+        $("#id_inicio").change(
+            function(ev){
+                console.log("Cambian el inicio");
+                //$('#id_fin').datetimepicker('setStartDate', $("#id_inicio").val());
+            });
+    
+        $("#id_fin").datetimepicker({"weekStart": 1, "language": "es-es", "minuteStepping":15,"useSeconds": false,"useCurrent":false});
+        
+        $("#id_inicio").change(function(ev){check_fechas(ev);});
+        $("#id_fin").change(function(ev){check_fechas(ev);});
+                
 		var d = new Date();
 		var month = d.getMonth();
 		var day = d.getDate();
 		var year = d.getFullYear();
-		$("#id_inicio").data('datetimepicker').setLocalDate(new Date(year, month, day, 12, 00));
-		$("#id_fin").data('datetimepicker').setLocalDate(new Date(year, month, day, 12, 00));
-            });
-        </script>
+		//$("#id_inicio").data('datetimepicker').setLocalDate(new Date(year, month, day, 12, 00));
+		//$("#id_fin").data('datetimepicker').setLocalDate(new Date(year, month, day, 12, 00));
+
+    });
+</script>
 
 
 {% endblock %}
@@ -84,8 +116,9 @@
 <div class="tab-pane" id="mensajes">
 
     <h3>Mensajes</h3>
-    <a href="{% url 'webminar_exportar_mensajes' object.id %}">Exportar</a>
+    
     {% if object.id %}
+    <a href="{% url 'webminar_exportar_mensajes' object.id %}">Exportar</a>
     <table class="table" >
         <thead><th>Fecha</th><th>De</th><th>Para</th><th>Texto</th></thead>
         {%for mensaje in object.mensaje_set.all|dictsort:"fecha" %}
