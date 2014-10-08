@@ -84,6 +84,7 @@
 <div class="tab-pane" id="mensajes">
 
     <h3>Mensajes</h3>
+    <a href="{% url 'webminar_exportar_mensajes' object.id %}">Exportar</a>
     {% if object.id %}
     <table class="table" >
         <thead><th>Fecha</th><th>De</th><th>Para</th><th>Texto</th></thead>

@@ -18,4 +18,5 @@ urlpatterns = patterns("",
     url(r"^editar/(?P<pk>\d+)/$", login_required(UpdateView.as_view(model=Webminar,form_class=WebminarForm)), name="webminar_editar"),
     url(r"^borrar/(?P<pk>\d+)/$", login_required(DeleteView.as_view(model=Webminar,success_url="/gestion/")), name="webminar_borrar"),
     url(r"^realizar/(?P<pk>\d+)/$", login_required(WebminarRealizar.as_view()), name="webminar_realizar"),
+    url(r"^exportar/(?P<pk>\d+)/mensajes/$", exportar_mensajes, name="webminar_exportar_mensajes"),
     )
