@@ -87,9 +87,9 @@
     {% if object.id %}
     <table class="table" >
         <thead><th>Fecha</th><th>De</th><th>Para</th><th>Texto</th></thead>
-        {%for mensaje in object.mensaje_set.all %}
+        {%for mensaje in object.mensaje_set.all|dictsort:"fecha" %}
         <tr>
-            <td>{{mensaje.fecha}}</td><td>{{mensaje.de}}</td><td>{{mensaje.para}}</td><td>{{mensaje.texto}}</td>
+            <td>{{mensaje.fecha|date:"d/m/Y G:i"}}</td><td>{{mensaje.de}}</td><td>{{mensaje.para}}</td><td>{{mensaje.texto}}</td>
         </tr>
         {% endfor %}
     </table>
