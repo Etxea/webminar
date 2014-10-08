@@ -15,20 +15,29 @@
             <!-- <th>ID</th> -->
             <th>Acciones</th>
         </thead>
-    {% for webminar in object_list %}
-    <tr>
-    <td>{{ webminar.titulo }} </td>    
-    <td>{{ webminar.descripcion }} </td>    
-	<td>{{ webminar.inicio }} </td>
-	<td>{{ webminar.fin }} </td>
-	<!-- <td>{{ webminar.slug }} </td> -->
-	<td> <a href="{{ webminar.get_absolute_url }}">Editar</a> <span class="glyphicon glyphicon-pencil"></span>
-        | <a href="{% url 'webminar_realizar' webminar.id %}">Realizar</a> <span class="glyphicon glyphicon-facetime-video"></span><br />
-        <a href="{% url 'webminar_ver' webminar.id %}">Ver</a> <span class="glyphicon glyphicon-film"></span>
-        | <a href="{% url 'webminar_borrar' webminar.id %}">Borrar</a> <span class="glyphicon glyphicon-trash"></span>
-        </td>
-    </tr>
-    {% endfor %}
+        {% for webminar in object_list %}
+        <tr>
+            <td>{{ webminar.titulo }} </td>    
+            <td>{{ webminar.descripcion }} </td>    
+            <td>{{ webminar.inicio }} </td>
+            <td>{{ webminar.fin }} </td>
+            <!-- <td>{{ webminar.slug }} </td> -->
+            <td> 
+                <a href="{{ webminar.get_absolute_url }}" data-toggle="tooltip" data-placement="top" title="Editar"> 
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <a href="{% url 'webminar_realizar' webminar.id %}" data-toggle="tooltip" data-placement="top" title="Realizar">
+                    <span class="glyphicon glyphicon-facetime-video"></span>
+                </a>
+                <a href="{% url 'webminar_ver' webminar.id %}" data-toggle="tooltip" data-placement="top" title="Ver">
+                    <span class="glyphicon glyphicon-film"></span>
+                </a>
+                <a href="{% url 'webminar_borrar' webminar.id %}" data-toggle="tooltip" data-placement="top" title="Borrar">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
     </table>
     <a href="{% url 'webminar_nuevo' %}" class="btn btn-success">Nuevo</a>
 {% endblock %}
