@@ -24,7 +24,12 @@
     function cargar_mensajes(email) {
         console.log("Vamos a cargar los mensajes generales y para "+email);
         $("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/"+email+"/");
-        $("#mensajes_list").scrollTop($("#mensajes_list").height());
+        autoscroll = $("#checkbox_autoscroll").is(':checked');
+        if (autoscroll) {
+            console.log("El susuario quiere autoscroll");
+            $("#mensajes_list").scrollTop($("#mensajes_list_interno").height()+20);
+            
+        }
     }
     
     function enviar_mensaje() {
@@ -103,11 +108,15 @@
     </div>
     <div class="col-md-3">
         <h3>Preguntas</h3>
-        <input id="mensaje_input"  class="form-control" placeholder="Escriba su pregunta(max 250 caracteres)" ></input>
+    
         <!-- <button id="enviar_mensaje" onclick="enviar_mensaje();">Enviar</button> -->
-	<br />
+	
         <div id="mensajes_list" style="overflow-y: scroll; height: 370px" >
         Cargando...
+        </div>
+        <input id="mensaje_input"  class="form-control" placeholder="Escriba su pregunta(max 250 caracteres)" ></input>
+        <div class="checkbox">
+                <label><input type="checkbox" id="checkbox_autoscroll"> Autoscroll</label>
         </div>
     </div>
 

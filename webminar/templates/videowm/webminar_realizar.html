@@ -41,7 +41,7 @@
         console.log("Error enviando el mensaje");
         console.log(status);
         console.log(error);
-        $("#mensajes_list").scrollTop($("#mensajes_list").height());
+        
     };
     
     function mensaje_enviado(data,status) {
@@ -53,9 +53,12 @@
     function cargar_mensajes() {
         console.log("Samos cargar_mensajes");
         $("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/");
-        console.log("Ajustamos el scroll");
-        //$("#mensajes_list").scrollTop($("#mensajes_list").height());
-        $("#mensajes_list").scrollTop(600);
+        autoscroll = $("#checkbox_autoscroll").is(':checked');
+        if (autoscroll) {
+            console.log("El susuario quiere autoscroll");
+            $("#mensajes_list").scrollTop($("#mensajes_list_interno").height()+20);
+            
+        }
     };
     
     $(function(){
@@ -110,10 +113,14 @@
     <div class="col-md-6">
          <h3>Mensajes</h3>
             
-            <div id="mensajes_list" style="overflow-y: scroll; height: 450px" >
+            <div id="mensajes_list" style="overflow-y: scroll; height: 250px" >
             Cargando...
             </div>
-            <br /><input id="mensaje_input" class="form-control" placeholder="Escriba su mensaje (max 250 caracteres)">
+            <input id="mensaje_input" class="form-control" placeholder="Escriba su mensaje (max 250 caracteres)">
+            <div class="checkbox">
+                <label><input type="checkbox" id="checkbox_autoscroll"> Aurtoscroll</label>
+            </div>
+            
     </div>
     <div class="col-md-3">
         

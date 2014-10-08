@@ -1,5 +1,5 @@
-
+<div id="mensajes_list_interno">
 {%for mensaje in object_list %}
 <b>[{{mensaje.fecha|date:"G:i"}}] {{mensaje.de}}</b><br /> {{mensaje.texto}}<br />
 {% endfor %}
-
+</div>
