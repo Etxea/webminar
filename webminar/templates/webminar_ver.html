@@ -67,8 +67,7 @@
         console.log("Ponemos el intervalo");
         
         var intervalID = setInterval(function(){
-            $("#mensajes_list").load("/webminar/{{ webminar.id }}/mensaje/leer/{{email}}/");
-            $("#mensajes_list").scrollTop($("#mensajes_list").height());
+            cargar_mensajes("{{email}}");
             }, 5000);
         console.log("Intervalo "+intervalID+" creado");
         
