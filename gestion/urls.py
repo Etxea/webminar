@@ -15,7 +15,7 @@ from views import *
 urlpatterns = patterns("",
     url(r"^$", login_required(WebminarGestionList.as_view()), name="webminar_gestion_lista"),
     url(r"^nuevo/$", login_required(CreateView.as_view(model=Webminar,form_class=WebminarForm)), name="webminar_nuevo"),
-    url(r"^editar/(?P<pk>\d+)/$", login_required(UpdateView.as_view(model=Webminar)), name="webminar_editar"),
+    url(r"^editar/(?P<pk>\d+)/$", login_required(UpdateView.as_view(model=Webminar,form_class=WebminarForm)), name="webminar_editar"),
     url(r"^borrar/(?P<pk>\d+)/$", login_required(DeleteView.as_view(model=Webminar,success_url="/gestion/")), name="webminar_borrar"),
     url(r"^realizar/(?P<pk>\d+)/$", login_required(WebminarRealizar.as_view()), name="webminar_realizar"),
     )
