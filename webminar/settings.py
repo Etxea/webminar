@@ -43,6 +43,11 @@ USE_I18N = True
 # calendars according to the current locale.
 USE_L10N = True
 
+LOCALE_PATHS = (
+	os.path.join(PACKAGE_ROOT, "locale"),
+	os.path.join(PACKAGE_ROOT,"..", "locale"),
+)
+
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
@@ -106,6 +111,7 @@ MIDDLEWARE_CLASSES = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
 ]
 
 ROOT_URLCONF = "webminar.urls"
