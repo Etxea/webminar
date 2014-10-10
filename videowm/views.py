@@ -6,7 +6,9 @@ from django.views.generic.edit import CreateView
 from django.views.decorators.http import require_http_methods
 import json
 from django.http import HttpResponse
-
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+		
 from django.db.models import Q
 from django.db.models import Count
 
@@ -47,28 +49,32 @@ class WebminarView(DetailView):
             print "Comprobamos el password",self.object.password,request.POST['password']
         return redirect(self.object.get_intro_url())
     def post(self, request, *args, **kwargs):
-        ##FIXME comprobar la contraseña
+        ##Validar email
+		try:
+			validate_email( request.POST['email'] )
+			if 'password' in self.request.POST:
+				print "Comprobamos el password",request.POST['password']
+				if request.POST['password']==self.get_object().password:
+					if 'email' in self.request.POST:
+						print "Nos visita ",request.POST['email']
+						visita = Visita(webminar=self.get_object(),quien=request.POST['email'])
+						print "Creando visita"
+						visita.save()
+						print "Visita guardada"
+						return super(WebminarView, self).get(request, *args, **kwargs)
+					else:
+						print "No hay email el mandamos a la intro"
+						return redirect(self.get_object().get_intro_url())
+				else:
+					print "Password MAL le mandamos a la intro"
+					return redirect(self.get_object().get_intro_url())
+			else:
+				print "No hay password le mandamos a la intro"
+				return redirect(self.get_object().get_intro_url())
+		except ValidationError:
+			print "Email MAL le mandamos a la intro"
+			return redirect(self.get_object().get_intro_url())
         
-        ##Apuntar una visita
-        if 'password' in self.request.POST:
-            print "Comprobamos el password",request.POST['password']
-            if request.POST['password']==self.get_object().password:
-                if 'email' in self.request.POST:
-                    print "Nos visita ",request.POST['email']
-                    visita = Visita(webminar=self.get_object(),quien=request.POST['email'])
-                    print "Creando visita"
-                    visita.save()
-                    print "Visita guardada"
-                    return super(WebminarView, self).get(request, *args, **kwargs)
-                else:
-                    print "No hay email el mandamos a la intro"
-                    return redirect(self.get_object().get_intro_url())
-            else:
-                print "Password MAL le mandamos a la intro"
-                return redirect(self.get_object().get_intro_url())
-        else:
-            print "No hay password le mandamos a la intro"
-            return redirect(self.get_object().get_intro_url())
      
     def get_context_data(self, **kwargs):
         context = super(WebminarView, self).get_context_data(**kwargs)
