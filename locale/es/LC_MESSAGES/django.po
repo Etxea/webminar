@@ -3734,7 +3734,7 @@ msgstr ""
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/base.html:10
 #: webminar/templates/_account_bar.html:14
 msgid "Settings"
-msgstr ""
+msgstr "Preferencias"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/_account_bar.html:15
 msgid "Admin"
@@ -3747,34 +3747,34 @@ msgstr ""
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/signup_closed.html:6
 #: webminar/templates/_account_bar.html:27
 msgid "Sign up"
-msgstr ""
+msgstr "Darse de alta"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/base.html:13
 msgid "Account"
-msgstr ""
+msgstr "Cuenta"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/base.html:19
 msgid "Delete account"
-msgstr ""
+msgstr "Borrar Cuenta"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/email_confirm.html:6
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/email_confirm.html:12
 msgid "Confirm Email"
-msgstr ""
+msgstr "Confirmar Email"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/email_confirm.html:15
 #, python-format
 msgid "Confirm email address <b>%(email)s</b>?"
-msgstr ""
+msgstr "¿Confirma el email <b>%(email)s</b>?"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/email_confirm.html:16
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/email_confirmation_sent.html:6
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/email_confirmation_sent.html:9
 msgid "Confirm your email address"
-msgstr ""
+msgstr "Confirme su email"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/email_confirmation_sent.html:11
 #, python-format
@@ -3784,16 +3784,20 @@ msgid ""
 "within a few minutes, contact us at <a href=\"mailto:%(THEME_CONTACT_EMAIL)s"
 "\">%(THEME_CONTACT_EMAIL)s</a>."
 msgstr ""
+"Le hemos enviado un email a email to <b>%(email)s</b> para reiniciar la clave."
+"iSiga el enlace recibido para reiniciar la clave. Si no ha recibido el email"
+"en unos minutes, contactenos en <a href=\"mailto:%(THEME_CONTACT_EMAIL)s"
+"\">%(THEME_CONTACT_EMAIL)s</a>."
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/email_confirmed.html:6
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/email_confirmed.html:9
 msgid "Email confirmed"
-msgstr ""
+msgstr "Email confirmado"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/email_confirmed.html:10
 #, python-format
 msgid "You have confirmed <b>%(email)s</b>"
-msgstr ""
+msgstr "Ha confirmado <b>%(email)s</b>"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/login.html:13
 msgid "Log in to an existing account"
@@ -3805,7 +3809,7 @@ msgstr "¿Ha olviado su clave?"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/logout.html:15
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "¿Seguro que quiere salir?"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/password_reset.html:17
 msgid ""
@@ -3836,10 +3840,12 @@ msgid ""
 "try resending or contact us at <a href=\"mailto:%(THEME_CONTACT_EMAIL)s\">"
 "%(THEME_CONTACT_EMAIL)s</a>."
 msgstr ""
+"Le hemos enviado un email si no ha recibido el email en unos minutos intentenlo de nuevo"
+"o contactenos en <a href=\"mailto:%(THEME_CONTACT_EMAIL)s\">"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/password_reset_sent.html:21
 msgid "Resend"
-msgstr ""
+msgstr "Reenviar"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/password_reset_sent.html:26
 #, python-format
@@ -3852,7 +3858,7 @@ msgstr ""
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/password_reset_token.html:7
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/password_reset_token.html:13
 msgid "Set your new password"
-msgstr ""
+msgstr "Establezca su nueva contraseña"
 
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/password_reset_token_fail.html:6
 #: lib/python2.7/site-packages/pinax_theme_bootstrap/templates/account/password_reset_token_fail.html:9
