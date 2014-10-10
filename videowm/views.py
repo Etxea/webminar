@@ -98,7 +98,8 @@ class WebminarAsistentes(ListView):
     template_name = "videowm/asistentes_list.html"
     def get_queryset(self):
         self.webminar = get_object_or_404(Webminar, pk=self.kwargs['webminar_id'])
-        return Visita.objects.filter(webminar=self.webminar).values('fecha','quien').annotate(dcount=Count('quien'))
+        return Visita.objects.filter(webminar=self.webminar).values('quien').annotate(cuantas=Count('quien'))
+        #return Visita.objects.filter(webminar=self.webminar).values('fecha','quien').annotate(dcount=Count('quien'))
 
 ##Esto enseña todos los mensajes, solo para admin
 ## FIXNE hace falta estar logeado!
