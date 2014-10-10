@@ -3,17 +3,18 @@
 from django.db import models
 from django.conf import settings
 from django.template.defaultfilters import slugify
+import datetime
 
 # Create your models here.
 
 class Webminar(models.Model):
-    slug = models.SlugField('ID',null=True,editable=False, blank=True)
-    titulo = models.CharField('Título',max_length=255,)
-    descripcion = models.CharField('Descripción',max_length=255,)
-    inicio = models.DateTimeField()
+    slug = models.SlugField('ID',null=True,editable=False, blank=True, max_length=120)
+    titulo = models.CharField('Título (máx. 100 caracteres)',max_length=100,)
+    descripcion = models.CharField('Descripción (máx. 255 caracteres)',max_length=255,)
+    inicio = models.DateTimeField(default=datetime.date.today)
     fin = models.DateTimeField()
     historico_url = models.CharField(default="#",null=True,max_length=250)
-    password = models.CharField('Clave, 8 digitos máximo',max_length=8,default="password")
+    password = models.CharField('Clave (8 caracteres máximo). Por defecto es password',max_length=8,default="password")
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.titulo)
