@@ -29,7 +29,7 @@ def exportar_mensajes(request,pk):
     writer = csv.writer(response,delimiter=';')
     writer.writerow(['Fecha', 'De', 'Para', 'Texto'])
     for mensaje in webminar.mensaje_set.all().order_by('-fecha'):
-		print mensaje.fecha, mensaje.de, mensaje.para, mensaje.texto
+		#print mensaje.fecha, mensaje.de, mensaje.para, mensaje.texto
 		writer.writerow([mensaje.fecha, mensaje.de, mensaje.para, mensaje.texto.encode("utf-8")])
     return response
 

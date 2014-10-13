@@ -9,7 +9,7 @@ import datetime
 
 class Webminar(models.Model):
     slug = models.SlugField('ID',null=True,editable=False, blank=True, max_length=120)
-    titulo = models.CharField('Título (máx. 100 caracteres)',max_length=100,)
+    titulo = models.CharField('Título (máx. 50 caracteres)',max_length=50,)
     descripcion = models.CharField('Descripción (máx. 255 caracteres)',max_length=255,)
     inicio = models.DateTimeField(default=datetime.date.today)
     fin = models.DateTimeField()
