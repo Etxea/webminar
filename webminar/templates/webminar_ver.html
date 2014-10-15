@@ -10,10 +10,16 @@
   <link href='{% static "video-js/video-js.css"%}' rel="stylesheet" type="text/css">
   <!-- video.js must be in the <head> for older IEs to work. -->
   <script src='{% static "video-js/video.js" %}'></script>
+  <script src='{% static "video-js/videojs.hls.js" %}'></script>
+  <script src='{% static "video-js/videojs-media-sources.js" %}'></script>
   <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
+<!--
   <script>
     videojs.options.flash.swf = '{% static "video-js/video-js.swf" %}';
   </script>
+-->
+ 
+
 {% endblock %}
 
 {% block extra_script %}
@@ -80,23 +86,50 @@
             }
         });
         
+        // display information about the video type
+		
     });
     
+		});
 </script>
 {% endblock %}
 
 
 {% block body %}
 
+<!--
+<div class="row">
+<div class="col-md-12">
+	<div class="flowplayer is-splash"
+     data-qualities="288p,480p,576p"
+     data-default-quality="480p"
+     data-rtmp="rtmp://webminar.beovipel.es/hls/emision"
+     data-ratio="0.75">
+ 
+   <video poster="">
+      <source type="application/x-mpegurl" src="http://webminar.beovipel.es:8080/hls/emision.m3u8">
+     
+   </video>
+ 
+</div>
+ 
+<p>Video type: <span id="vtype"></span></p>
+</div>
+</div>
 
-
+-->
 
 <div class="row">
     <div class="col-md-9">
-        <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="800" height="450" autoplay data-setup="{}">
-    
-            <source src="rtmp://178.32.12.60/emision/prueba" type='rtmp/mp4' >
-    
+        <video id="webminar_video" class="video-js vjs-default-skin" 
+			controls preload="none" width="800" height="450" autoplay data-setup="{}">
+
+<!--
+            <source src="rtmp://178.32.12.60/emision/prueba" type='rtmp/mp4' >    
+-->
+
+            <source src="http://webminar.beovipel.es:8080/hls/emision.m3u8" type="application/x-mpegURL">
+
         </video>
         <h3>Detalles</h3>
         <ul>
