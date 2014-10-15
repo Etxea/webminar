@@ -35,12 +35,12 @@
     
     <ul>
         {% for webminar in object_list %}
-        <li> {{ webminar.inicio |date:"SHORT_DATE_FORMAT" }} {{ webminar.titulo }}
+        <li> <span data-toggle="tooltip" data-placement="top" title="{{ webminar.descripcion}}" > {{ webminar.inicio |date:"SHORT_DATE_FORMAT" }} {{ webminar.titulo }}<span>
                 <a href="{{ webminar.get_historico_url }}">
             {% if webminar.historico_url == "#" %}
-                Aun no se ha colgado el vídeo.
+    		<span class="glyphicon glyphicon-remove"></span>
             {% else %}
-                {{ webminar.slug }}
+    		<span class="glyphicon glyphicon-film"></span>
             {% endif %}
                 </a>
         </li>

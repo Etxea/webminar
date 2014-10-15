@@ -132,11 +132,9 @@
 
         </video>
         <h3>Detalles</h3>
-        <ul>
-            <li>{{webminar.titulo}}</li>
-            <li>{{webminar.descripcion}}</li>
-            <li>Desde {{webminar.inicio}} hasta {{webminar.fin}}</li>
-        </ul>
+            <p><b>Título</b>: {{webminar.titulo}}</p>
+            <p><b>Descripción</b>: {{webminar.descripcion}}</p>
+            <p><b>Fecha</b>: Desde {{webminar.inicio}} hasta {{webminar.fin|date:"G:i"}}</p>
     </div>
     <div class="col-md-3">
         <h3>Preguntas</h3>
