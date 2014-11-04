@@ -131,7 +131,7 @@
 				  plugins: {
 					rtmp: {
 					  url: '{% static "flowplayer/flowplayer.rtmp-3.2.13.swf"%}',
-					  netConnectionUrl: "rtmp://webminar.beovipel.es/recepcion/"
+					  netConnectionUrl: "{{ RTMP_URL }}"
 					},
 					controls: {
 				  url: '{% static "flowplayer/flowplayer.controls-3.2.16.swf" %}',
@@ -140,7 +140,7 @@
 				  },
 				  clip: {
 					provider: "rtmp",
-					url: "beovipel",
+					url: "{{ RTMP_KEY }}",
 					live: true,
 					scaling: "fit"
 				  }
@@ -158,17 +158,17 @@
 				//~ console.log( textStatus ); // Success
 				//~ console.log( jqxhr.status ); // 200
 				//~ console.log( "Load was performed." );
-				jwplayer.key="TMbaKIAYVqGUj4IFHyj99YV6a47JmwWqlDkvCA==";
+				jwplayer.key="{{ JWPLAYER_KEY }}";
 				console.log("Vamos a setupear el jwplayer");
 				jwplayer("player_hls").setup({
-					file: "http://webminar.beovipel.es:8080/hls/beovipel.m3u8",
-					image: "http://webminar.beovipel.es/site_media/static/img/play.png",
+					file: "{{ HLS_URL }}/{{ HLS_KEY }}",
+					image: '{% static "/img/play.png" %}',
 					androidhls: true
 				});
 				console.log("JWPlayer setupeado");
 				if( isMobile.Android() ) {
 					console.log('Android');
-					$("#aviso").html("Si no puede ver el vídeo haga click para ver a través de <button onclick=\"window.open('rtsp://webminar.beovipel.es:88/live', '_system')\">RTSP</button>");
+					$("#aviso").html("En algunos dispositivos android el visor no funciona correctamente. Si no puede ver el vídeo haga click para ver a través de <button onclick=\"window.open('{{ RTSP_URL }}', '_system')\">reproductor de vídeos</button>. Puede que necesite instalar el reproductor de vídeo <a href='https://play.google.com/store/apps/details?id=com.mxtech.videoplayer.ad'>MX Player</a> y habilitar la <a href='https://sites.google.com/site/mxvpen/faq#TOC-What-are-S-W-decoder-and-H-W-decoder-' > aceleración vía hardware</a>");
 				}
 				if( isMobile.iOS() ) {
 					console.log('iOS');
@@ -188,11 +188,12 @@
 		
 		<div id="player_rtmp">Player PC</div>
 		<div id="player_hls">Player iotrastos & androides</div>	
+		<div id="aviso">Aviso</div>
         <h3>Detalles</h3>
             <p><b>Título</b>: {{webminar.titulo}}</p>
             <p><b>Descripción</b>: {{webminar.descripcion}}</p>
             <p><b>Fecha</b>: Desde {{webminar.inicio}} hasta {{webminar.fin|date:"G:i"}}</p>
-            <p><b>Tecnología</b>:<div id="aviso">Aviso</div></p>
+            
     </div>
     <div class="col-md-3">
         <h3>Preguntas</h3>
