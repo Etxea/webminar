@@ -10,7 +10,7 @@ from videowm.models import *
 
 class WebminarGestionList(ListView):
     model=Webminar
-    paginate_by = 3
+    paginate_by = 10
     template_name="videowm/webminar_gestion_list.html"
 
 

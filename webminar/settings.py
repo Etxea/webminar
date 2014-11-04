@@ -106,6 +106,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
 
 
 MIDDLEWARE_CLASSES = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -142,6 +143,7 @@ INSTALLED_APPS = [
     "account",
     "eventlog",
     "metron",
+    "corsheaders",
 
     # project
     "webminar",
@@ -196,6 +198,9 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 THEME_CONTACT_EMAIL="soporte@kernet.es"
+
+
+CORS_ORIGIN_ALLOW_ALL=True
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

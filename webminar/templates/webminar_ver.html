@@ -7,25 +7,38 @@
 
 {% block extra_head %}
 
-  <link href='{% static "video-js/video-js.css"%}' rel="stylesheet" type="text/css">
-  <!-- video.js must be in the <head> for older IEs to work. -->
-  <script src='{% static "video-js/video.js" %}'></script>
-  <script src='{% static "video-js/videojs.hls.js" %}'></script>
-  <script src='{% static "video-js/videojs-media-sources.js" %}'></script>
-  <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
-<!--
-  <script>
-    videojs.options.flash.swf = '{% static "video-js/video-js.swf" %}';
-  </script>
--->
- 
+<style>
+    #player_rtmp {
+      display: block;
+      width: 100%;
+      height: 480px;
+      margin: 0;
+      background-color: grey;
+    }
+    #player_rtmp *:focus, #audio *:focus {
+      outline-style: none;
+    }
+    #player_hls {
+      display: block;
+      width: 100%;
+      height: 480px;
+      margin: 0;
+      background-color: grey;
+    }
+    #player_hls *:focus, #audio *:focus {
+      outline-style: none;
+    }
+  </style>
 
 {% endblock %}
 
+
 {% block extra_script %}
 
-
+<script src='{% static "js/flash_detect.js"%}'></script>
+<script src='{% static "jwplayer/jwplayer.js"%}'></script>
 <script>
+
     
     function cargar_mensajes(email) {
         console.log("Vamos a cargar los mensajes generales y para "+email);
@@ -85,62 +98,105 @@
                 enviar_mensaje();
             }
         });
-        
-        // display information about the video type
-		
-    });
+        var isMobile = {
+			Android: function() {
+				return navigator.userAgent.match(/Android/i);
+			},
+			BlackBerry: function() {
+				return navigator.userAgent.match(/BlackBerry/i);
+			},
+			iOS: function() {
+				return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+			},
+			Opera: function() {
+				return navigator.userAgent.match(/Opera Mini/i);
+			},
+			Windows: function() {
+				return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+			},
+			any: function() {
+				return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+			}
+		};
+
+
+    	if(FlashDetect.installed){
+			console.log("Hay flash vamos a usar flowplayer");
+			$("#player_hls").hide();
+			$.getScript( '{% static "flowplayer/flowplayer-3.2.13.min.js"%}', function( data, textStatus, jqxhr ) {
+				console.log( textStatus ); // Success
+				console.log( jqxhr.status ); // 200
+				console.log( "Load was performed." );
+				 $f("player_rtmp", '{% static "flowplayer/flowplayer-3.2.18.swf" %}', {
+				  plugins: {
+					rtmp: {
+					  url: '{% static "flowplayer/flowplayer.rtmp-3.2.13.swf"%}',
+					  netConnectionUrl: "rtmp://webminar.beovipel.es/recepcion/"
+					},
+					controls: {
+				  url: '{% static "flowplayer/flowplayer.controls-3.2.16.swf" %}',
+					  scrubber: false
+					}
+				  },
+				  clip: {
+					provider: "rtmp",
+					url: "beovipel",
+					live: true,
+					scaling: "fit"
+				  }
+				 });
+				$("#aviso").text("Usando RTMP");
+				$f().play();
+			});
+		} else {
+	
+			console.log("No hay flash, cargamos HLS");
+			$("#player_rtmp").hide();
+			console.log("Intentamos cargar jwplayer");
+			//~ $.getScript( '{% static "/jwplayer/jwplayer.js" %}', function( data, textStatus, jqxhr ) {
+				//~ //console.log( data ); // Data returned
+				//~ console.log( textStatus ); // Success
+				//~ console.log( jqxhr.status ); // 200
+				//~ console.log( "Load was performed." );
+				jwplayer.key="TMbaKIAYVqGUj4IFHyj99YV6a47JmwWqlDkvCA==";
+				console.log("Vamos a setupear el jwplayer");
+				jwplayer("player_hls").setup({
+					file: "http://webminar.beovipel.es:8080/hls/beovipel.m3u8",
+					image: "http://webminar.beovipel.es/site_media/static/img/play.png",
+					androidhls: true
+				});
+				console.log("JWPlayer setupeado");
+				if( isMobile.Android() ) {
+					console.log('Android');
+					$("#aviso").html("Si no puede ver el vídeo haga click para ver a través de <button onclick=\"window.open('rtsp://webminar.beovipel.es:88/live', '_system')\">RTSP</button>");
+				}
+				if( isMobile.iOS() ) {
+					console.log('iOS');
+						$("#aviso").text("Dispositivo IOS Usando HLS");
+				} ;
+			//~ });
+		};	
     
-		});
+	});
 </script>
 {% endblock %}
 
 
 {% block body %}
-
-<!--
-<div class="row">
-<div class="col-md-12">
-	<div class="flowplayer is-splash"
-     data-qualities="288p,480p,576p"
-     data-default-quality="480p"
-     data-rtmp="rtmp://webminar.etxea.net/hls/emision"
-     data-ratio="0.75">
- 
-   <video poster="">
-      <source type="application/x-mpegurl" src="http://webminar.etxea.net:8080/hls/emision.m3u8">
-     
-   </video>
- 
-</div>
- 
-<p>Video type: <span id="vtype"></span></p>
-</div>
-</div>
-
--->
-
 <div class="row">
     <div class="col-md-9">
-        <video id="webminar_video" class="video-js vjs-default-skin" 
-			controls preload="none" width="800" height="450" autoplay data-setup="{}">
-
-<!--
-            <source src="rtmp://178.32.12.60/emision/prueba" type='rtmp/mp4' >    
--->
-
-            <source src="http://webminar.etxea.net:8080/hls/emision.m3u8" type="application/x-mpegURL">
-
-        </video>
+		
+		<div id="player_rtmp">Player PC</div>
+		<div id="player_hls">Player iotrastos & androides</div>	
         <h3>Detalles</h3>
             <p><b>Título</b>: {{webminar.titulo}}</p>
             <p><b>Descripción</b>: {{webminar.descripcion}}</p>
             <p><b>Fecha</b>: Desde {{webminar.inicio}} hasta {{webminar.fin|date:"G:i"}}</p>
+            <p><b>Tecnología</b>:<div id="aviso">Aviso</div></p>
     </div>
     <div class="col-md-3">
         <h3>Preguntas</h3>
-    
-        <!-- <button id="enviar_mensaje" onclick="enviar_mensaje();">Enviar</button> -->
-	
+        <!-- <button id="enviar_mensaje" onclick="enviar_mensaje();">Enviar</button> -->	
         <div id="mensajes_list" style="overflow-y: scroll; height: 370px" >
         Cargando...
         </div>

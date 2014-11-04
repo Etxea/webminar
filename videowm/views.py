@@ -21,7 +21,7 @@ class PortadaView(ListView):
     model = Webminar
     #Solo listamos los viejos
     queryset = Webminar.objects.filter(fin__lt=datetime.datetime.now).order_by('-fin')
-    paginate_by = 3    
+    paginate_by = 10
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(PortadaView, self).get_context_data(**kwargs)
