@@ -1,0 +1,136 @@
+{% extends "site_simple.html" %}
+
+{% load i18n %}
+{% load staticfiles %}
+
+{% block head_title %}{% trans "Ver Webminar" %}{% endblock %}
+
+{% block extra_head %}
+
+<style>
+body {
+    padding-top: 0px;
+    position: relative;
+}
+    #player_rtmp {
+      display: block;
+      width: 720px;
+      height: 405px;
+      margin: 0;
+      background-color: grey;
+    }
+    #player_rtmp *:focus, #audio *:focus {
+      outline-style: none;
+    }
+    #player_hls {
+      display: block;
+      width: 720px;
+      height: 405px;
+      margin: 0;
+      background-color: grey;
+    }
+    #player_hls *:focus, #audio *:focus {
+      outline-style: none;
+    }
+  </style>
+
+{% endblock %}
+
+
+{% block extra_script %}
+
+<script src='{% static "js/flash_detect.js"%}'></script>
+<script src='{% static "jwplayer/jwplayer.js"%}'></script>
+<script>
+    
+    $(function(){
+        
+        var isMobile = {
+			Android: function() {
+				return navigator.userAgent.match(/Android/i);
+			},
+			BlackBerry: function() {
+				return navigator.userAgent.match(/BlackBerry/i);
+			},
+			iOS: function() {
+				return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+			},
+			Opera: function() {
+				return navigator.userAgent.match(/Opera Mini/i);
+			},
+			Windows: function() {
+				return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+			},
+			any: function() {
+				return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+			}
+		};
+
+
+    	if(FlashDetect.installed){
+			console.log("Hay flash vamos a usar flowplayer");
+			$("#player_hls").hide();
+			$.getScript( '{% static "flowplayer/flowplayer-3.2.13.min.js"%}', function( data, textStatus, jqxhr ) {
+				console.log( textStatus ); // Success
+				console.log( jqxhr.status ); // 200
+				console.log( "Load was performed." );
+				 $f("player_rtmp", '{% static "flowplayer/flowplayer-3.2.18.swf" %}', {
+				  plugins: {
+					rtmp: {
+					  url: '{% static "flowplayer/flowplayer.rtmp-3.2.13.swf"%}',
+					  netConnectionUrl: "{{ RTMP_URL }}"
+					},
+					controls: {
+				  url: '{% static "flowplayer/flowplayer.controls-3.2.16.swf" %}',
+					  scrubber: false
+					}
+				  },
+				  clip: {
+					provider: "rtmp",
+					url: "{{ RTMP_KEY }}",
+					live: true,
+					scaling: "fit"
+				  }
+				 });
+				$f().play();
+			});
+		} else {
+	
+			console.log("No hay flash, cargamos HLS");
+			$("#player_rtmp").hide();
+			console.log("Intentamos cargar jwplayer");
+			//~ $.getScript( '{% static "/jwplayer/jwplayer.js" %}', function( data, textStatus, jqxhr ) {
+				//~ //console.log( data ); // Data returned
+				//~ console.log( textStatus ); // Success
+				//~ console.log( jqxhr.status ); // 200
+				//~ console.log( "Load was performed." );
+				jwplayer.key="{{ JWPLAYER_KEY }}";
+				console.log("Vamos a setupear el jwplayer");
+				jwplayer("player_hls").setup({
+					file: "{{ HLS_URL }}/{{ HLS_KEY }}",
+					image: '{% static "/img/play.png" %}',
+					androidhls: true
+				});
+				console.log("JWPlayer setupeado");
+				if( isMobile.Android() ) {
+					console.log('Android');
+					$("#aviso").html("En algunos dispositivos android el visor no funciona correctamente. Si no puede ver el vídeo haga click para ver a través de <button onclick=\"window.open('{{ RTSP_URL }}', '_system')\">reproductor de vídeos</button>. Puede que necesite instalar el reproductor de vídeo <a href='https://play.google.com/store/apps/details?id=com.mxtech.videoplayer.ad'>MX Player</a> y habilitar la <a href='https://sites.google.com/site/mxvpen/faq#TOC-What-are-S-W-decoder-and-H-W-decoder-' > aceleración vía hardware</a>");
+				}
+				if( isMobile.iOS() ) {
+					console.log('iOS');
+				} ;
+			//~ });
+		};	
+    
+	});
+</script>
+{% endblock %}
+
+
+{% block body %}
+		
+		<div id="player_rtmp">Player PC</div>
+		<div id="player_hls">Player iotrastos & androides</div>	
+		<div id="aviso"></div>
+
+{% endblock %}

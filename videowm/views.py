@@ -80,7 +80,9 @@ class WebminarView(DetailView):
         context = super(WebminarView, self).get_context_data(**kwargs)
         context['email'] = self.request.POST['email']
         return context
-        
+
+class WebminarDirectoView(TemplateView):
+    template_name = "webminar_directo.html"
 
 @require_http_methods(["POST"])
 def WebminarMandarMensaje(request, webminar_id):
