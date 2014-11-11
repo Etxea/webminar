@@ -93,13 +93,16 @@ class WebminarDirectoView(DetailView):
                 
                 ##Comprobamos la hora...
                 ahora = timezone.now()
-                print ahora,self.object.inicio,self.object.fin
-                if (self.object.inicio < ahora ) and (self.object.fin > ahora ):
-                    print "Estamos en la ventana de tiempo correcta"
-                    return super(WebminarDirectoView, self).get(request, *args, **kwargs)
+                inicio = self.object.inicio - datetime.timedelta(minutes = int(self.object.margen_inicio))
+                fin = self.object.fin + datetime.timedelta(minutes = int(self.object.margen_fin))
+                print ahora,self.object.inicio,self.object.fin,inicio,fin
+                if (inicio < ahora ) and (fin > ahora ):
+                    print "Estamos en la ventana de tiempo correcta"                    
                 else:
-                    print "aun no está listo"
-                    return redirect("/webminar/nodisponible/")
+                    print "aun no está listo, le mandamos al nodisponible"
+                    self.template_name = "webminar_nodisponible.html"
+                    #~ return redirect("/webminar/nodisponible/")
+                return super(WebminarDirectoView, self).get(request, *args, **kwargs)
             else:
                 return redirect(self.object.get_intro_url())
                 

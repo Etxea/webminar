@@ -7,6 +7,18 @@ import datetime
 
 # Create your models here.
 
+MARGEN_INICIO = (
+    (5, '5min.'),
+    (10, '10min.'),
+    (15, '15min.'),
+    (30, '30min.'),
+)
+
+MARGEN_FIN = (
+    (15, '15min.'),
+    (30, '30min.'),
+)
+
 class Webminar(models.Model):
     slug = models.SlugField('ID',null=True,editable=False, blank=True, max_length=120)
     titulo = models.CharField('Título (máx. 50 caracteres)',max_length=50,)
@@ -15,7 +27,8 @@ class Webminar(models.Model):
     fin = models.DateTimeField()
     historico_url = models.CharField(default="#",null=True,max_length=250)
     password = models.CharField('Clave (8 caracteres máximo). Por defecto es password',max_length=8,default="password")
-    
+    margen_inicio = models.DecimalField(max_digits=2, decimal_places=0,choices=MARGEN_INICIO)
+    margen_fin = models.DecimalField(max_digits=2, decimal_places=0,choices=MARGEN_FIN)
     def save(self, *args, **kwargs):
         self.slug = slugify(self.titulo)
         super(Webminar, self).save(*args, **kwargs)
