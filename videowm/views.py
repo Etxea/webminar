@@ -8,7 +8,8 @@ import json
 from django.http import HttpResponse
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-		
+from django.utils import timezone
+
 from django.db.models import Q
 from django.db.models import Count
 
@@ -50,30 +51,30 @@ class WebminarView(DetailView):
         return redirect(self.object.get_intro_url())
     def post(self, request, *args, **kwargs):
         ##Validar email
-		try:
-			validate_email( request.POST['email'] )
-			if 'password' in self.request.POST:
-				print "Comprobamos el password",request.POST['password']
-				if request.POST['password']==self.get_object().password:
-					if 'email' in self.request.POST:
-						print "Nos visita ",request.POST['email']
-						visita = Visita(webminar=self.get_object(),quien=request.POST['email'])
-						print "Creando visita"
-						visita.save()
-						print "Visita guardada"
-						return super(WebminarView, self).get(request, *args, **kwargs)
-					else:
-						print "No hay email el mandamos a la intro"
-						return redirect(self.get_object().get_intro_url())
-				else:
-					print "Password MAL le mandamos a la intro"
-					return redirect(self.get_object().get_intro_url())
-			else:
-				print "No hay password le mandamos a la intro"
-				return redirect(self.get_object().get_intro_url())
-		except ValidationError:
-			print "Email MAL le mandamos a la intro"
-			return redirect(self.get_object().get_intro_url())
+        try:
+            validate_email( request.POST['email'] )
+            if 'password' in self.request.POST:
+                print "Comprobamos el password",request.POST['password']
+                if request.POST['password']==self.get_object().password:
+                    if 'email' in self.request.POST:
+                        print "Nos visita ",request.POST['email']
+                        visita = Visita(webminar=self.get_object(),quien=request.POST['email'])
+                        print "Creando visita"
+                        visita.save()
+                        print "Visita guardada"
+                        return super(WebminarView, self).get(request, *args, **kwargs)
+                    else:
+                        print "No hay email el mandamos a la intro"
+                        return redirect(self.get_object().get_intro_url())
+                else:
+                    print "Password MAL le mandamos a la intro"
+                    return redirect(self.get_object().get_intro_url())
+            else:
+                print "No hay password le mandamos a la intro"
+                return redirect(self.get_object().get_intro_url())
+        except ValidationError:
+            print "Email MAL le mandamos a la intro"
+            return redirect(self.get_object().get_intro_url())
         
      
     def get_context_data(self, **kwargs):
@@ -81,8 +82,34 @@ class WebminarView(DetailView):
         context['email'] = self.request.POST['email']
         return context
 
-class WebminarDirectoView(TemplateView):
+class WebminarDirectoView(DetailView):
+    model = Webminar
     template_name = "webminar_directo.html"
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.kwargs['password']:
+            print "Comprobamos el password: ",self.object.password,"versus",self.kwargs['password']
+            if self.object.password==self.kwargs['password']:
+                
+                ##Comprobamos la hora...
+                ahora = timezone.now()
+                print ahora,self.object.inicio,self.object.fin
+                if (self.object.inicio < ahora ) and (self.object.fin > ahora ):
+                    print "Estamos en la ventana de tiempo correcta"
+                    return super(WebminarDirectoView, self).get(request, *args, **kwargs)
+                else:
+                    print "aun no está listo"
+                    return redirect("/webminar/nodisponible/")
+            else:
+                return redirect(self.object.get_intro_url())
+                
+        return redirect(self.object.get_intro_url())
+
+class WebminarDirectoNopassView(TemplateView):
+    template_name = "webminar_directo.html"
+
+class WebminarNodisponibleView(TemplateView):
+    template_name = "webminar_nodisponible.html"
 
 @require_http_methods(["POST"])
 def WebminarMandarMensaje(request, webminar_id):
