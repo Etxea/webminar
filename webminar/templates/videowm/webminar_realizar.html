@@ -60,10 +60,17 @@
             
         }
     };
+
+    function cargar_visitantes() {
+        console.log("Somos cargar_visitantes");
+        $("#visitantes").load("/webminar/stats/");
+        
+    };
     
     $(function(){
         var interval_1_ID = setInterval(function(){
             cargar_mensajes();
+	    cargar_visitantes();
             }, 5000);
         var interval_2_ID = setInterval(function(){$("#asistentes_list").load("/webminar/{{ webminar.id }}/asistentes/");}, 5000);
         
@@ -94,9 +101,12 @@
     <div class="col-md-12">
         
             
+<!--
             <img id="stream1" src="http://192.168.0.91/mjpg/video.mjpg?timestamp=1412766087287" alt="Si no se muestra ninguna imagen, es posible que haya demasiados visores, o bien que se haya modificado la configuración del navegador. Consulte la ayuda para obtener instrucciones detalladas al respecto." border="0" height="200" width="320">
 			<img id="stream2" src="http://192.168.0.92/mjpg/video.mjpg?timestamp=1412766087287" alt="Si no se muestra ninguna imagen, es posible que haya demasiados visores, o bien que se haya modificado la configuración del navegador. Consulte la ayuda para obtener instrucciones detalladas al respecto." border="0"  height="200" width="320">        
             <img id="stream3" src="http://192.168.0.93/mjpg/video.mjpg?timestamp=1412766087287" alt="Si no se muestra ninguna imagen, es posible que haya demasiados visores, o bien que se haya modificado la configuración del navegador. Consulte la ayuda para obtener instrucciones detalladas al respecto." border="0" height="200" width="320" >
+
+-->
 <!--
             <img id="stream1" src="http://placehold.it/320x240&text=Camara1" alt="Si no se muestra ninguna imagen, es posible que haya demasiados visores, o bien que se haya modificado la configuración del navegador. Consulte la ayuda para obtener instrucciones detalladas al respecto." border="0" height="200" width="320">        
             <img id="stream1" src="http://placehold.it/320x240&text=Camara2" alt="Si no se muestra ninguna imagen, es posible que haya demasiados visores, o bien que se haya modificado la configuración del navegador. Consulte la ayuda para obtener instrucciones detalladas al respecto." border="0" height="200" width="320">        
@@ -132,6 +142,8 @@
 
 
     <div class="col-md-3">
+    <h3>Online:</h3>			
+        <div id="visitantes"></div>
     <h3>Detalles</h3>
         <ul>
             <li>{{webminar.titulo}}</li>

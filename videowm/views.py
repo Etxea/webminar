@@ -10,10 +10,13 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
+
 from django.db.models import Q
 from django.db.models import Count
 
 import datetime
+import subprocess
+
 from models import *
 from forms import *
 
@@ -110,6 +113,18 @@ class WebminarDirectoView(DetailView):
 
 class WebminarDirectoNopassView(TemplateView):
     template_name = "webminar_directo.html"
+
+class WebminarStats(TemplateView):
+    template_name = "webminar_stats.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(WebminarStats, self).get_context_data(**kwargs)
+	proc = subprocess.Popen(["/usr/bin/sudo -uroot -S /usr/local/bin/visitantes"], stdout=subprocess.PIPE, shell=True)
+	(out, err) = proc.communicate()
+	print "program output and error:", out, err	
+        context['stats']=out
+        return context
+
 
 class WebminarNodisponibleView(TemplateView):
     template_name = "webminar_nodisponible.html"
