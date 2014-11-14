@@ -8,6 +8,7 @@ import datetime
 # Create your models here.
 
 MARGEN_INICIO = (
+    (0, '0min.'),
     (5, '5min.'),
     (10, '10min.'),
     (15, '15min.'),
@@ -15,6 +16,7 @@ MARGEN_INICIO = (
 )
 
 MARGEN_FIN = (
+    (0, '0min.'),
     (15, '15min.'),
     (30, '30min.'),
 )
